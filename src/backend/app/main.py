@@ -1,0 +1,77 @@
+"""FastAPI main application module."""
+
+import logging
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.api.routes import health, settings as settings_routes, conversations, tts
+from app.api.websocket import realtime
+from app.config import get_settings
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    """Application lifespan handler for startup and shutdown events."""
+    settings = get_settings()
+    logger.info("Starting German Tutor Backend...")
+    logger.info(f"Azure OpenAI Endpoint: {settings.azure_openai_endpoint}")
+    logger.info(f"Realtime Deployment: {settings.azure_openai_realtime_deployment}")
+    yield
+    logger.info("Shutting down German Tutor Backend...")
+
+
+def create_app() -> FastAPI:
+    """Create and configure the FastAPI application."""
+    settings = get_settings()
+
+    app = FastAPI(
+        title="German Tutor API",
+        description="AI-powered German language tutor with real-time voice interaction",
+        version="0.1.0",
+        lifespan=lifespan,
+    )
+
+    # Configure CORS
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins_list,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # Include routers
+    app.include_router(health.router, tags=["Health"])
+    app.include_router(settings_routes.router, prefix="/api", tags=["Settings"])
+    app.include_router(conversations.router, prefix="/api", tags=["Conversations"])
+    app.include_router(tts.router, prefix="/api", tags=["TTS"])
+
+    # Include WebSocket endpoints
+    app.include_router(realtime.router, tags=["Realtime"])
+
+    return app
+
+
+app = create_app()
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    settings = get_settings()
+    uvicorn.run(
+        "app.main:app",
+        host=settings.backend_host,
+        port=settings.backend_port,
+        reload=settings.debug,
+    )

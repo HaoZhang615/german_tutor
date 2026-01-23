@@ -1,0 +1,46 @@
+{
+  "app": {
+    "name": "德语家教",
+    "tagline": "通过对话学习德语"
+  },
+  "nav": {
+    "home": "首页",
+    "settings": "设置",
+    "history": "历史记录"
+  },
+  "home": {
+    "subtitle": "与智能AI家教一起掌握德语。根据您的水平进行实时语音对话。",
+    "selectLevel": "选择您的德语水平",
+    "selectVoice": "选择家教声音",
+    "start": "开始学习"
+  },
+  "actions": {
+    "start": "开始学习",
+    "stop": "停止",
+    "send": "发送",
+    "cancel": "取消",
+    "back": "返回"
+  },
+  "language": {
+    "en": "英语",
+    "zh": "中文",
+    "de": "德语",
+    "select": "选择语言"
+  },
+  "status": {
+    "connecting": "连接中...",
+    "connected": "已连接",
+    "disconnected": "已断开",
+    "error": "错误"
+  },
+  "history": {
+    "title": "对话历史",
+    "loading": "加载历史记录...",
+    "empty": "暂无对话记录",
+    "emptyDesc": "开始新的课程来练习您的德语技能。",
+    "error": "加载对话历史失败",
+    "errorDetails": "加载详情失败",
+    "retry": "重试",
+    "messages": "条消息"
+  }
+}

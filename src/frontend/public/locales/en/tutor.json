@@ -1,0 +1,55 @@
+{
+  "levels": {
+    "title": "Select Your German Level",
+    "subtitle": "Choose the level that best matches your current German skills",
+    "A1": {
+      "name": "Beginner",
+      "description": "Basic phrases and vocabulary for everyday situations"
+    },
+    "A2": {
+      "name": "Elementary",
+      "description": "Simple conversations about familiar topics"
+    },
+    "B1": {
+      "name": "Intermediate",
+      "description": "Handle most travel situations and everyday discussions"
+    },
+    "B2": {
+      "name": "Upper Intermediate",
+      "description": "Complex discussions on abstract and technical topics"
+    },
+    "C1": {
+      "name": "Advanced",
+      "description": "Fluent expression for academic and professional use"
+    },
+    "C2": {
+      "name": "Mastery",
+      "description": "Near-native level with subtle nuances"
+    }
+  },
+  "voice": {
+    "label": "Tutor Voice",
+    "preview": "Preview Voice"
+  },
+  "session": {
+    "title": "German Practice Session",
+    "ready": "Ready to practice",
+    "listening": "Listening...",
+    "speaking": "Speaking...",
+    "thinking": "Thinking...",
+    "tapToSpeak": "Tap the microphone to start speaking",
+    "holdToSpeak": "Hold to speak",
+    "releaseToSend": "Release to send"
+  },
+  "input": {
+    "voiceMode": "Voice Mode",
+    "textMode": "Text Mode",
+    "placeholder": "Type your message in German...",
+    "send": "Send"
+  },
+  "transcript": {
+    "you": "You",
+    "tutor": "Tutor",
+    "empty": "Start a conversation to see the transcript"
+  }
+}

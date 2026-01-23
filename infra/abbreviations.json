@@ -1,0 +1,12 @@
+{
+  "analyticsWorkspaces": "log-",
+  "appManagedEnvironments": "cae-",
+  "cognitiveServicesAccounts": "cog-",
+  "containerApps": "ca-",
+  "containerRegistryRegistries": "cr",
+  "insightsComponents": "appi-",
+  "keyVaultVaults": "kv-",
+  "managedIdentityUserAssignedIdentities": "id-",
+  "operationalInsightsWorkspaces": "log-",
+  "webStaticSites": "stapp-"
+}

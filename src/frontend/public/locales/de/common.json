@@ -1,0 +1,46 @@
+{
+  "app": {
+    "name": "Deutschlehrer",
+    "tagline": "Deutsch lernen durch Konversation"
+  },
+  "nav": {
+    "home": "Startseite",
+    "settings": "Einstellungen",
+    "history": "Verlauf"
+  },
+  "home": {
+    "subtitle": "Meistern Sie Deutsch mit einem intelligenten KI-Tutor. Echtzeit-Sprachgesprache, angepasst an Ihr Niveau.",
+    "selectLevel": "Wahlen Sie Ihr Sprachniveau",
+    "selectVoice": "Tutor-Stimme wahlen",
+    "start": "Lernen starten"
+  },
+  "actions": {
+    "start": "Lernen starten",
+    "stop": "Stoppen",
+    "send": "Senden",
+    "cancel": "Abbrechen",
+    "back": "Zuruck"
+  },
+  "language": {
+    "en": "Englisch",
+    "zh": "Chinesisch",
+    "de": "Deutsch",
+    "select": "Sprache wahlen"
+  },
+  "status": {
+    "connecting": "Verbinden...",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt",
+    "error": "Fehler"
+  },
+  "history": {
+    "title": "Gesprachsverlauf",
+    "loading": "Verlauf wird geladen...",
+    "empty": "Noch keine Gesprache",
+    "emptyDesc": "Starten Sie eine neue Sitzung, um Ihre Deutschkenntnisse zu uben.",
+    "error": "Fehler beim Laden des Gesprachsverlaufs",
+    "errorDetails": "Fehler beim Laden der Details",
+    "retry": "Erneut versuchen",
+    "messages": "Nachrichten"
+  }
+}

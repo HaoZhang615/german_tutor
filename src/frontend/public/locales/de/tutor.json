@@ -1,0 +1,55 @@
+{
+  "levels": {
+    "title": "Wahlen Sie Ihr Deutschniveau",
+    "subtitle": "Wahlen Sie das Niveau, das am besten zu Ihren aktuellen Deutschkenntnissen passt",
+    "A1": {
+      "name": "Anfanger",
+      "description": "Grundlegende Phrasen und Vokabeln fur Alltagssituationen"
+    },
+    "A2": {
+      "name": "Grundlegende Kenntnisse",
+      "description": "Einfache Gesprache uber vertraute Themen"
+    },
+    "B1": {
+      "name": "Mittelstufe",
+      "description": "Die meisten Reisesituationen und Alltagsgesprache bewaltigen"
+    },
+    "B2": {
+      "name": "Gehobene Mittelstufe",
+      "description": "Komplexe Diskussionen uber abstrakte und technische Themen"
+    },
+    "C1": {
+      "name": "Fortgeschritten",
+      "description": "Fliessender Ausdruck fur akademische und berufliche Zwecke"
+    },
+    "C2": {
+      "name": "Nahezu muttersprachlich",
+      "description": "Fast muttersprachliches Niveau mit feinen Nuancen"
+    }
+  },
+  "voice": {
+    "label": "Lehrerstimme",
+    "preview": "Stimme anhoren"
+  },
+  "session": {
+    "title": "Deutschubungssitzung",
+    "ready": "Bereit zum Uben",
+    "listening": "Hore zu...",
+    "speaking": "Spreche...",
+    "thinking": "Denke nach...",
+    "tapToSpeak": "Tippen Sie auf das Mikrofon, um zu sprechen",
+    "holdToSpeak": "Halten, um zu sprechen",
+    "releaseToSend": "Loslassen zum Senden"
+  },
+  "input": {
+    "voiceMode": "Sprachmodus",
+    "textMode": "Textmodus",
+    "placeholder": "Schreiben Sie Ihre Nachricht auf Deutsch...",
+    "send": "Senden"
+  },
+  "transcript": {
+    "you": "Sie",
+    "tutor": "Lehrer",
+    "empty": "Starten Sie ein Gesprach, um das Transkript zu sehen"
+  }
+}

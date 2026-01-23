@@ -1,0 +1,66 @@
+name: german-tutor
+metadata:
+  template: german-tutor@0.1.0
+
+infra:
+  provider: bicep
+  path: infra
+
+services:
+  backend:
+    project: ./src/backend
+    language: python
+    host: containerapp
+    docker:
+      path: ./Dockerfile
+
+  frontend:
+    project: src/frontend
+    language: js
+    host: staticwebapp
+    dist: dist
+    hooks:
+      prepackage:
+        windows:
+          shell: pwsh
+          run: |
+            $backendUrl = $env:BACKEND_URL
+            if ($backendUrl) {
+              $wsUrl = $backendUrl -replace '^https://', 'wss://'
+              $config = @{
+                apiUrl = $backendUrl
+                wsUrl = $wsUrl
+              } | ConvertTo-Json
+              Set-Content -Path "public/config.json" -Value $config
+              Write-Host "Generated config.json with backend URL: $backendUrl"
+            }
+        posix:
+          shell: bash
+          run: |
+            if [ -n "$BACKEND_URL" ]; then
+              WS_URL=$(echo "$BACKEND_URL" | sed 's|^https://|wss://|')
+              echo "{\"apiUrl\": \"$BACKEND_URL\", \"wsUrl\": \"$WS_URL\"}" > public/config.json
+              echo "Generated config.json with backend URL: $BACKEND_URL"
+            fi
+      prebuild:
+        windows:
+          shell: pwsh
+          run: npm install
+        posix:
+          shell: bash
+          run: npm install
+
+hooks:
+  postprovision:
+    windows:
+      shell: pwsh
+      run: |
+        Write-Host "Deployment complete!"
+        Write-Host "Frontend URL: $env:FRONTEND_URL"
+        Write-Host "Backend URL: $env:BACKEND_URL"
+    posix:
+      shell: bash
+      run: |
+        echo "Deployment complete!"
+        echo "Frontend URL: $FRONTEND_URL"
+        echo "Backend URL: $BACKEND_URL"

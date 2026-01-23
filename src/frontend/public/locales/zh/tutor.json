@@ -1,0 +1,55 @@
+{
+  "levels": {
+    "title": "选择您的德语水平",
+    "subtitle": "选择最符合您当前德语能力的级别",
+    "A1": {
+      "name": "初级",
+      "description": "日常情境的基础短语和词汇"
+    },
+    "A2": {
+      "name": "初中级",
+      "description": "关于熟悉话题的简单对话"
+    },
+    "B1": {
+      "name": "中级",
+      "description": "处理大多数旅行情况和日常讨论"
+    },
+    "B2": {
+      "name": "中高级",
+      "description": "关于抽象和技术话题的复杂讨论"
+    },
+    "C1": {
+      "name": "高级",
+      "description": "学术和专业用途的流利表达"
+    },
+    "C2": {
+      "name": "精通",
+      "description": "接近母语水平，掌握细微差别"
+    }
+  },
+  "voice": {
+    "label": "老师声音",
+    "preview": "试听声音"
+  },
+  "session": {
+    "title": "德语练习课程",
+    "ready": "准备练习",
+    "listening": "聆听中...",
+    "speaking": "说话中...",
+    "thinking": "思考中...",
+    "tapToSpeak": "点击麦克风开始说话",
+    "holdToSpeak": "按住说话",
+    "releaseToSend": "松开发送"
+  },
+  "input": {
+    "voiceMode": "语音模式",
+    "textMode": "文字模式",
+    "placeholder": "用德语输入您的消息...",
+    "send": "发送"
+  },
+  "transcript": {
+    "you": "您",
+    "tutor": "老师",
+    "empty": "开始对话以查看记录"
+  }
+}

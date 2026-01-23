@@ -1,0 +1,46 @@
+{
+  "app": {
+    "name": "German Tutor",
+    "tagline": "Learn German through conversation"
+  },
+  "nav": {
+    "home": "Home",
+    "settings": "Settings",
+    "history": "History"
+  },
+  "home": {
+    "subtitle": "Master German with an intelligent AI tutor. Real-time voice conversations adapted to your level.",
+    "selectLevel": "Select your proficiency level",
+    "selectVoice": "Select tutor voice",
+    "start": "Start Learning"
+  },
+  "actions": {
+    "start": "Start Learning",
+    "stop": "Stop",
+    "send": "Send",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "language": {
+    "en": "English",
+    "zh": "Chinese",
+    "de": "German",
+    "select": "Select Language"
+  },
+  "status": {
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "error": "Error"
+  },
+  "history": {
+    "title": "Conversation History",
+    "loading": "Loading history...",
+    "empty": "No conversations yet",
+    "emptyDesc": "Start a new session to practice your German skills.",
+    "error": "Failed to load conversation history",
+    "errorDetails": "Failed to load details",
+    "retry": "Try Again",
+    "messages": "messages"
+  }
+}
