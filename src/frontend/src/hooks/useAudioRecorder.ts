@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../store';
 
 const SAMPLE_RATE = 24000;
@@ -9,6 +9,7 @@ interface UseAudioRecorderOptions {
 
 export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) {
   const [isRecording, setIsRecording] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const { setIsRecording: setStoreRecording, setAudioLevel } = useAppStore();
   
   const mediaStreamRef = useRef<MediaStream | null>(null);
@@ -16,10 +17,22 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
   const workletNodeRef = useRef<AudioWorkletNode | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const isPausedRef = useRef(false);
+  const updateAudioLevelRef = useRef<FrameRequestCallback>(() => {});
 
-  const updateAudioLevel = useCallback(() => {
+  const updateAudioLevel = useCallback<FrameRequestCallback>((_timestamp) => {
+    void _timestamp; // Fix unused variable lint error
     if (!analyserRef.current) return;
     
+    // If paused, report 0 level
+    if (isPausedRef.current) {
+      setAudioLevel(0);
+      if (isRecording) {
+        animationFrameRef.current = requestAnimationFrame(updateAudioLevelRef.current);
+      }
+      return;
+    }
+
     const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
     analyserRef.current.getByteFrequencyData(dataArray);
     
@@ -27,12 +40,29 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
     setAudioLevel(average);
     
     if (isRecording) {
-      animationFrameRef.current = requestAnimationFrame(updateAudioLevel);
+      animationFrameRef.current = requestAnimationFrame(updateAudioLevelRef.current);
     }
   }, [isRecording, setAudioLevel]);
 
+  // Keep ref in sync
+  useEffect(() => {
+    updateAudioLevelRef.current = updateAudioLevel;
+  }, [updateAudioLevel]);
+
+  const togglePause = useCallback(() => {
+    if (!isRecording) return;
+    
+    const newPausedState = !isPausedRef.current;
+    isPausedRef.current = newPausedState;
+    setIsPaused(newPausedState);
+  }, [isRecording]);
+
   const startRecording = useCallback(async () => {
     try {
+      // Reset pause state on new recording
+      isPausedRef.current = false;
+      setIsPaused(false);
+
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           sampleRate: SAMPLE_RATE,
@@ -75,14 +105,16 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
 
       workletNodeRef.current = new AudioWorkletNode(audioContextRef.current, 'audio-processor');
       workletNodeRef.current.port.onmessage = (event) => {
-        onAudioData?.(event.data);
+        if (!isPausedRef.current) {
+          onAudioData?.(event.data);
+        }
       };
 
       source.connect(workletNodeRef.current);
       
       setIsRecording(true);
       setStoreRecording(true);
-      updateAudioLevel();
+      updateAudioLevel(performance.now());
     } catch (error) {
       console.error('Failed to start recording:', error);
     }
@@ -110,12 +142,19 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
 
     setIsRecording(false);
     setStoreRecording(false);
+    
+    // Reset pause state when stopping
+    isPausedRef.current = false;
+    setIsPaused(false);
+    
     setAudioLevel(0);
   }, [setStoreRecording, setAudioLevel]);
 
   return {
     isRecording,
+    isPaused,
     startRecording,
     stopRecording,
+    togglePause,
   };
 }

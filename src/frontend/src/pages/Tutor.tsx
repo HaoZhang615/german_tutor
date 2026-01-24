@@ -34,7 +34,7 @@ export default function Tutor() {
     voice: tutorVoice,
   });
 
-  const { startRecording, stopRecording } = useAudioRecorder({ 
+  const { startRecording, stopRecording, togglePause, isPaused } = useAudioRecorder({ 
     onAudioData: sendAudio 
   });
 
@@ -113,7 +113,31 @@ export default function Tutor() {
             ) : (
               <>
                 <div className="flex items-center justify-center gap-8 w-full">
-                  <div className="w-24 hidden sm:block">
+                  <div className="w-24 flex justify-end">
+                    {isRecording && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={togglePause}
+                        className={`rounded-full w-12 h-12 p-0 flex items-center justify-center transition-colors ${
+                          isPaused 
+                            ? 'text-german-gold bg-amber-50 hover:bg-amber-100' 
+                            : 'text-gray-400 hover:text-german-gold hover:bg-amber-50'
+                        }`}
+                        title={isPaused ? t('actions.resume', 'Resume') : t('actions.pause', 'Pause')}
+                      >
+                        {isPaused ? (
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )}
+                      </Button>
+                    )}
                   </div>
                   
                   <div className="relative">
@@ -123,7 +147,7 @@ export default function Tutor() {
                       disabled={connectionStatus !== 'connected'} 
                     />
                     <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-48">
-                      <AudioVisualizer isRecording={isRecording || sessionStatus === 'speaking'} audioLevel={audioLevel} />
+                      <AudioVisualizer isRecording={(isRecording || sessionStatus === 'speaking') && !isPaused} audioLevel={audioLevel} />
                     </div>
                   </div>
 
@@ -132,10 +156,10 @@ export default function Tutor() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowTextInput(true)}
-                      className="rounded-full w-10 h-10 p-0 flex items-center justify-center text-gray-400 hover:text-german-gold hover:bg-amber-50"
+                      className="rounded-full w-12 h-12 p-0 flex items-center justify-center text-gray-400 hover:text-german-gold hover:bg-amber-50"
                       title={t('controls.keyboard', 'Use Keyboard')}
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                       </svg>
                     </Button>

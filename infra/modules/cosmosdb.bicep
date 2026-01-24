@@ -64,6 +64,59 @@ resource conversationsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDataba
   }
 }
 
+resource usersContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-05-15' = {
+  name: 'Users'
+  parent: cosmosDbDatabase
+  properties: {
+    resource: {
+      id: 'Users'
+      partitionKey: {
+        kind: 'Hash'
+        paths: ['/email']
+      }
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [
+          { path: '/*' }
+        ]
+        excludedPaths: [
+          { path: '/"_etag"/?' }
+        ]
+      }
+      uniqueKeyPolicy: {
+        uniqueKeys: [
+          {
+            paths: ['/email']
+          }
+        ]
+      }
+    }
+  }
+}
+
+resource userProgressContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-05-15' = {
+  name: 'UserProgress'
+  parent: cosmosDbDatabase
+  properties: {
+    resource: {
+      id: 'UserProgress'
+      partitionKey: {
+        kind: 'Hash'
+        paths: ['/user_id']
+      }
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [
+          { path: '/*' }
+        ]
+        excludedPaths: [
+          { path: '/"_etag"/?' }
+        ]
+      }
+    }
+  }
+}
+
 resource backendIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
   name: backendIdentityName
 }
@@ -83,4 +136,6 @@ resource sqlRoleAssignment 'Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignm
 output endpoint string = cosmosDbAccount.properties.documentEndpoint
 output databaseName string = cosmosDbDatabase.name
 output conversationsContainerName string = conversationsContainer.name
+output usersContainerName string = usersContainer.name
+output userProgressContainerName string = userProgressContainer.name
 output accountId string = cosmosDbAccount.id
