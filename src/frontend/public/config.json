@@ -1,4 +1,4 @@
 {
-  "wsUrl": "wss://ca-backend.wonderfuldesert-5306dd89.eastus2.azurecontainerapps.io",
-  "apiUrl": "https://ca-backend.wonderfuldesert-5306dd89.eastus2.azurecontainerapps.io"
+  "apiUrl": "https://ca-backend.wonderfuldesert-5306dd89.eastus2.azurecontainerapps.io",
+  "wsUrl": "wss://ca-backend.wonderfuldesert-5306dd89.eastus2.azurecontainerapps.io"
 }
