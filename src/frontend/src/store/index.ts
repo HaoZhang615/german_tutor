@@ -1,6 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AppState, GermanLevel, UILanguage, TutorVoice, ConnectionStatus, SessionStatus, Message } from './types';
+import type {
+  AppState,
+  AuthState,
+  AuthStatus,
+  GermanLevel,
+  UILanguage,
+  TutorVoice,
+  ConnectionStatus,
+  SessionStatus,
+  Message,
+  User,
+} from './types';
 
 export const useAppStore = create<AppState>()(
   persist(
@@ -53,4 +64,38 @@ export const useAppStore = create<AppState>()(
   )
 );
 
-export type { GermanLevel, UILanguage, TutorVoice, ConnectionStatus, SessionStatus, Message };
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      status: 'idle' as AuthStatus,
+      error: null,
+
+      setUser: (user: User | null) => set({ user }),
+      
+      setStatus: (status: AuthStatus) => set({ status }),
+      
+      setError: (error: string | null) => set({ error }),
+      
+      logout: () => set({ user: null, status: 'unauthenticated', error: null }),
+    }),
+    {
+      name: 'german-tutor-auth',
+      partialize: (state) => ({
+        // Only persist user data, not status or error
+        user: state.user,
+      }),
+    }
+  )
+);
+
+export type {
+  GermanLevel,
+  UILanguage,
+  TutorVoice,
+  ConnectionStatus,
+  SessionStatus,
+  Message,
+  User,
+  AuthStatus,
+};

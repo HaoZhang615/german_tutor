@@ -7,7 +7,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health, settings as settings_routes, conversations, tts
+from app.api.routes import auth, conversations, health, settings as settings_routes, tts, users
 from app.api.websocket import realtime
 from app.config import get_settings
 
@@ -26,6 +26,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("Starting German Tutor Backend...")
     logger.info(f"Azure OpenAI Endpoint: {settings.azure_openai_endpoint}")
     logger.info(f"Realtime Deployment: {settings.azure_openai_realtime_deployment}")
+    logger.info(f"Google OAuth: {'enabled' if settings.google_oauth_enabled else 'disabled'}")
+    logger.info(f"GitHub OAuth: {'enabled' if settings.github_oauth_enabled else 'disabled'}")
     yield
     logger.info("Shutting down German Tutor Backend...")
 
@@ -37,7 +39,7 @@ def create_app() -> FastAPI:
     app = FastAPI(
         title="German Tutor API",
         description="AI-powered German language tutor with real-time voice interaction",
-        version="0.1.0",
+        version="0.2.0",
         lifespan=lifespan,
     )
 
@@ -52,6 +54,8 @@ def create_app() -> FastAPI:
 
     # Include routers
     app.include_router(health.router, tags=["Health"])
+    app.include_router(auth.router, prefix="/api", tags=["Auth"])
+    app.include_router(users.router, prefix="/api", tags=["Users"])
     app.include_router(settings_routes.router, prefix="/api", tags=["Settings"])
     app.include_router(conversations.router, prefix="/api", tags=["Conversations"])
     app.include_router(tts.router, prefix="/api", tags=["TTS"])

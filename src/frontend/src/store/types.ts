@@ -3,6 +3,7 @@ export type UILanguage = 'en' | 'zh' | 'de';
 export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error';
 export type SessionStatus = 'idle' | 'listening' | 'speaking' | 'thinking';
 export type TutorVoice = 'alloy' | 'ash' | 'ballad' | 'coral' | 'echo' | 'sage' | 'shimmer' | 'verse';
+export type OAuthProvider = 'google' | 'github';
 
 export interface Message {
   id: string;
@@ -10,6 +11,92 @@ export interface Message {
   content: string;
   timestamp: number;
   audioUrl?: string;
+}
+
+// Auth types - matching backend models
+export interface UserProfile {
+  display_name: string;
+  native_language: UILanguage;
+  preferred_ui_language: UILanguage;
+  german_level: GermanLevel;
+  preferred_voice: TutorVoice;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  profile: UserProfile;
+  is_active: boolean;
+  is_verified: boolean;
+  created_at: string;
+  oauth_provider: OAuthProvider | null;
+}
+
+export interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+}
+
+export interface LevelStats {
+  total_conversations: number;
+  total_time_seconds: number;
+  total_messages: number;
+}
+
+export interface Milestone {
+  type: string;
+  achieved_at: string;
+  details?: Record<string, unknown>;
+}
+
+export interface UserProgress {
+  user_id: string;
+  current_level: GermanLevel;
+  total_conversations: number;
+  total_time_seconds: number;
+  total_messages: number;
+  level_stats: Record<GermanLevel, LevelStats>;
+  streak_days: number;
+  longest_streak: number;
+  last_activity_date: string | null;
+  milestones: Milestone[];
+  total_hours: number;
+}
+
+export interface ConversationSummary {
+  id: string;
+  user_id: string;
+  level: GermanLevel;
+  started_at: string;
+  ended_at: string | null;
+  message_count: number;
+  duration_seconds: number | null;
+}
+
+export interface ConversationDetail extends ConversationSummary {
+  messages: ConversationMessage[];
+}
+
+export interface ConversationMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
+
+// Auth state
+export type AuthStatus = 'idle' | 'loading' | 'authenticated' | 'unauthenticated';
+
+export interface AuthState {
+  user: User | null;
+  status: AuthStatus;
+  error: string | null;
+  
+  // Actions
+  setUser: (user: User | null) => void;
+  setStatus: (status: AuthStatus) => void;
+  setError: (error: string | null) => void;
+  logout: () => void;
 }
 
 export interface AppState {

@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { useAppStore } from '../store';
+import { getAccessToken, loadConfig } from '../services/api';
 
 const SAMPLE_RATE = 24000;
 
@@ -7,34 +8,6 @@ interface UseWebSocketOptions {
   level: string;
   uiLanguage: string;
   voice: string;
-}
-
-interface RuntimeConfig {
-  apiUrl: string;
-  wsUrl: string;
-}
-
-async function loadConfig(): Promise<RuntimeConfig> {
-  if (import.meta.env.VITE_WS_URL) {
-    return {
-      apiUrl: import.meta.env.VITE_API_URL || 'http://localhost:8000',
-      wsUrl: import.meta.env.VITE_WS_URL,
-    };
-  }
-  
-  try {
-    const response = await fetch('/config.json');
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch {
-    console.warn('Failed to load config.json, using defaults');
-  }
-  
-  return {
-    apiUrl: 'http://localhost:8000',
-    wsUrl: 'ws://localhost:8000',
-  };
 }
 
 export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) {
@@ -107,40 +80,7 @@ export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) 
     }
   }, [setSessionStatus]);
 
-  const connect = useCallback(async () => {
-    setConnectionStatus('connecting');
-    
-    const config = await loadConfig();
-    const wsUrl = `${config.wsUrl}/ws/realtime?level=${level}&ui_language=${uiLanguage}&voice=${voice}`;
-    
-    const ws = new WebSocket(wsUrl);
-    wsRef.current = ws;
-
-    ws.onopen = () => {
-      setIsConnected(true);
-      setConnectionStatus('connected');
-    };
-
-    ws.onclose = () => {
-      setIsConnected(false);
-      setConnectionStatus('disconnected');
-      wsRef.current = null;
-    };
-
-    ws.onerror = () => {
-      setConnectionStatus('error');
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        handleMessage(data);
-      } catch {
-        console.error('Failed to parse message');
-      }
-    };
-  }, [level, uiLanguage, voice, setConnectionStatus]);
-
+  // Define handleMessage BEFORE connect so it can be referenced
   const handleMessage = useCallback((data: Record<string, unknown>) => {
     const eventType = data.type as string;
 
@@ -202,6 +142,52 @@ export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) 
       }
     }
   }, [addMessage, setSessionStatus, playNextAudioChunk, stopAllAudio]);
+
+  const connect = useCallback(async () => {
+    setConnectionStatus('connecting');
+    
+    const config = await loadConfig();
+    const token = getAccessToken();
+    
+    // Build WebSocket URL with auth token
+    const params = new URLSearchParams({
+      level,
+      ui_language: uiLanguage,
+      voice,
+    });
+    if (token) {
+      params.append('token', token);
+    }
+    
+    const wsUrl = `${config.wsUrl}/ws/realtime?${params.toString()}`;
+    
+    const ws = new WebSocket(wsUrl);
+    wsRef.current = ws;
+
+    ws.onopen = () => {
+      setIsConnected(true);
+      setConnectionStatus('connected');
+    };
+
+    ws.onclose = () => {
+      setIsConnected(false);
+      setConnectionStatus('disconnected');
+      wsRef.current = null;
+    };
+
+    ws.onerror = () => {
+      setConnectionStatus('error');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        handleMessage(data);
+      } catch {
+        console.error('Failed to parse message');
+      }
+    };
+  }, [level, uiLanguage, voice, setConnectionStatus, handleMessage]);
 
   const disconnect = useCallback(() => {
     if (wsRef.current) {
