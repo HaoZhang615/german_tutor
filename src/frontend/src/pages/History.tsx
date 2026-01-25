@@ -6,12 +6,137 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { TranscriptPanel } from '../components/tutor/TranscriptPanel';
 import { api } from '../services/api';
-import type { Message, ConversationSummary } from '../store/types';
+import type { Message, ConversationSummary, ConversationAnalysis } from '../store/types';
 
 interface ApiMessage {
   role: string;
   content: string;
   timestamp?: string;
+}
+
+function ScoreRing({ score, size = 48, label }: { score: number; size?: number; label?: string }) {
+  const radius = (size - 8) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const progress = (score / 10) * circumference;
+  const getColor = (s: number) => {
+    if (s >= 8) return '#22c55e';
+    if (s >= 6) return '#eab308';
+    if (s >= 4) return '#f97316';
+    return '#ef4444';
+  };
+  
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg className="transform -rotate-90" width={size} height={size}>
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="#e5e7eb"
+            strokeWidth="4"
+            fill="none"
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke={getColor(score)}
+            strokeWidth="4"
+            fill="none"
+            strokeDasharray={circumference}
+            strokeDashoffset={circumference - progress}
+            strokeLinecap="round"
+            className="transition-all duration-500"
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-bold text-gray-700">{score}</span>
+        </div>
+      </div>
+      {label && <span className="text-xs text-gray-500">{label}</span>}
+    </div>
+  );
+}
+
+function SummaryCard({ summary }: { summary: ConversationAnalysis }) {
+  const { t } = useTranslation('common');
+  
+  return (
+    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 mb-4 border border-amber-100">
+      <div className="flex items-start gap-4">
+        <div className="flex-shrink-0">
+          <ScoreRing score={summary.overall_score} size={64} />
+          <div className="text-center mt-1 text-xs font-medium text-gray-600">
+            {t('history.overall', 'Overall')}
+          </div>
+        </div>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-medium text-gray-700">
+              {summary.topic}
+            </span>
+          </div>
+          
+          <div className="flex gap-3 mb-3">
+            <ScoreRing score={summary.fluency} size={36} label={t('history.fluency', 'Fluency')} />
+            <ScoreRing score={summary.grammar} size={36} label={t('history.grammar', 'Grammar')} />
+            <ScoreRing score={summary.vocabulary} size={36} label={t('history.vocab', 'Vocab')} />
+            <ScoreRing score={summary.comprehension} size={36} label={t('history.comprehension', 'Comp.')} />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3 text-xs">
+            <div>
+              <div className="font-medium text-green-700 mb-1 flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                {t('history.highlights', 'Highlights')}
+              </div>
+              <ul className="text-gray-600 space-y-0.5">
+                {summary.highlights.slice(0, 3).map((h, i) => (
+                  <li key={i} className="truncate">• {h}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div>
+              <div className="font-medium text-orange-700 mb-1 flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clipRule="evenodd" />
+                </svg>
+                {t('history.toImprove', 'To Improve')}
+              </div>
+              <ul className="text-gray-600 space-y-0.5">
+                {summary.improvements.slice(0, 3).map((imp, i) => (
+                  <li key={i} className="truncate">• {imp}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          
+          {summary.new_vocabulary.length > 0 && (
+            <div className="mt-2 pt-2 border-t border-amber-200">
+              <div className="text-xs font-medium text-purple-700 mb-1 flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                </svg>
+                {t('history.newWords', 'New Words')}
+              </div>
+              <div className="flex flex-wrap gap-1">
+                {summary.new_vocabulary.map((word, i) => (
+                  <span key={i} className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs">
+                    {word}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function History() {
@@ -318,6 +443,22 @@ export default function History() {
                             </svg>
                             {conv.message_count} {t('history.messages', 'messages')}
                           </span>
+                          {conv.summary && (
+                            <>
+                              <span className="w-1 h-1 rounded-full bg-gray-300" />
+                              <span 
+                                className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                  conv.summary.overall_score >= 8 ? 'bg-green-100 text-green-700' :
+                                  conv.summary.overall_score >= 6 ? 'bg-yellow-100 text-yellow-700' :
+                                  conv.summary.overall_score >= 4 ? 'bg-orange-100 text-orange-700' :
+                                  'bg-red-100 text-red-700'
+                                }`}
+                                title={t('history.overall', 'Overall Score')}
+                              >
+                                {conv.summary.overall_score}/10
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -348,6 +489,7 @@ export default function History() {
 
                 {expandedId === conv.id && (
                   <div className="mt-6 pt-6 border-t border-gray-100 animate-fade-in">
+                    {conv.summary && <SummaryCard summary={conv.summary} />}
                     {loadingDetails === conv.id ? (
                       <div className="flex justify-center py-8">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-german-gold"></div>

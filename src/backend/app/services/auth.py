@@ -11,25 +11,22 @@ import httpx
 import jwt
 
 from app.config import get_settings
-from app.models.user import OAuthAccount, OAuthProvider, TokenPayload, TokenResponse, User
+from app.models.user import OAuthAccount, OAuthProvider, TokenPayload, TokenResponse
 
 logger = logging.getLogger(__name__)
 
 
 def hash_password(password: str) -> str:
     """Hash a password using bcrypt."""
-    password_bytes = password.encode('utf-8')
+    password_bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
-    return bcrypt.hashpw(password_bytes, salt).decode('utf-8')
+    return bcrypt.hashpw(password_bytes, salt).decode("utf-8")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Verify a password against its hash."""
     try:
-        return bcrypt.checkpw(
-            plain_password.encode('utf-8'),
-            hashed_password.encode('utf-8')
-        )
+        return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
     except Exception:
         return False
 
@@ -271,7 +268,6 @@ class OAuthClient:
         )
 
 
-# Singleton OAuth client
 _oauth_client: OAuthClient | None = None
 
 
@@ -281,3 +277,9 @@ def get_oauth_client() -> OAuthClient:
     if _oauth_client is None:
         _oauth_client = OAuthClient()
     return _oauth_client
+
+
+def reset_oauth_client() -> None:
+    """Reset the OAuth client singleton (for use after settings reload)."""
+    global _oauth_client
+    _oauth_client = None

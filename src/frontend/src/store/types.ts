@@ -72,6 +72,19 @@ export interface ConversationSummary {
   ended_at: string | null;
   message_count: number;
   duration_seconds: number | null;
+  summary?: ConversationAnalysis | null;
+}
+
+export interface ConversationAnalysis {
+  overall_score: number;
+  fluency: number;
+  grammar: number;
+  vocabulary: number;
+  comprehension: number;
+  highlights: string[];
+  improvements: string[];
+  new_vocabulary: string[];
+  topic: string;
 }
 
 export interface ConversationDetail extends ConversationSummary {

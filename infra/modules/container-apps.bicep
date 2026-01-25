@@ -15,6 +15,40 @@ param backendIdentityId string
 param backendIdentityClientId string
 param backendIdentityPrincipalId string
 
+// Frontend URL for OAuth redirects
+param frontendUrl string
+
+// OAuth Configuration
+@secure()
+param googleClientId string = ''
+@secure()
+param googleClientSecret string = ''
+@secure()
+param githubClientId string = ''
+@secure()
+param githubClientSecret string = ''
+
+// JWT Configuration
+@secure()
+param jwtSecretKey string = ''
+param jwtAlgorithm string = 'HS256'
+param jwtAccessTokenExpireMinutes int = 60
+param jwtRefreshTokenExpireDays int = 7
+
+// SMTP Configuration
+param smtpHost string = ''
+param smtpPort int = 587
+param smtpUser string = ''
+@secure()
+param smtpPassword string = ''
+param smtpFromEmail string = ''
+param smtpFromName string = 'German Tutor'
+param smtpUseTls string = 'true'
+
+// Token expiration
+param verificationTokenExpireHours int = 24
+param passwordResetTokenExpireHours int = 1
+
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = {
   name: replace(containerRegistryName, '-', '')
   location: location
@@ -78,6 +112,30 @@ resource backendApp 'Microsoft.App/containerApps@2024-03-01' = {
           name: 'registry-password'
           value: containerRegistry.listCredentials().passwords[0].value
         }
+        {
+          name: 'google-client-id'
+          value: googleClientId
+        }
+        {
+          name: 'google-client-secret'
+          value: googleClientSecret
+        }
+        {
+          name: 'github-client-id'
+          value: githubClientId
+        }
+        {
+          name: 'github-client-secret'
+          value: githubClientSecret
+        }
+        {
+          name: 'jwt-secret-key'
+          value: jwtSecretKey
+        }
+        {
+          name: 'smtp-password'
+          value: smtpPassword
+        }
       ]
     }
     template: {
@@ -125,6 +183,78 @@ resource backendApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'COSMOSDB_CONVERSATIONS_CONTAINER'
               value: cosmosDbConversationsContainer
+            }
+            {
+              name: 'FRONTEND_URL'
+              value: frontendUrl
+            }
+            {
+              name: 'GOOGLE_CLIENT_ID'
+              secretRef: 'google-client-id'
+            }
+            {
+              name: 'GOOGLE_CLIENT_SECRET'
+              secretRef: 'google-client-secret'
+            }
+            {
+              name: 'GITHUB_CLIENT_ID'
+              secretRef: 'github-client-id'
+            }
+            {
+              name: 'GITHUB_CLIENT_SECRET'
+              secretRef: 'github-client-secret'
+            }
+            {
+              name: 'JWT_SECRET_KEY'
+              secretRef: 'jwt-secret-key'
+            }
+            {
+              name: 'JWT_ALGORITHM'
+              value: jwtAlgorithm
+            }
+            {
+              name: 'JWT_ACCESS_TOKEN_EXPIRE_MINUTES'
+              value: string(jwtAccessTokenExpireMinutes)
+            }
+            {
+              name: 'JWT_REFRESH_TOKEN_EXPIRE_DAYS'
+              value: string(jwtRefreshTokenExpireDays)
+            }
+            {
+              name: 'SMTP_HOST'
+              value: smtpHost
+            }
+            {
+              name: 'SMTP_PORT'
+              value: string(smtpPort)
+            }
+            {
+              name: 'SMTP_USER'
+              value: smtpUser
+            }
+            {
+              name: 'SMTP_PASSWORD'
+              secretRef: 'smtp-password'
+            }
+            {
+              name: 'SMTP_FROM_EMAIL'
+              value: smtpFromEmail
+            }
+            {
+              name: 'SMTP_FROM_NAME'
+              value: smtpFromName
+            }
+            {
+              name: 'SMTP_USE_TLS'
+              value: smtpUseTls
+            }
+            {
+              name: 'VERIFICATION_TOKEN_EXPIRE_HOURS'
+              value: string(verificationTokenExpireHours)
+            }
+            {
+              name: 'PASSWORD_RESET_TOKEN_EXPIRE_HOURS'
+              value: string(passwordResetTokenExpireHours)
             }
           ]
         }

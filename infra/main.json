@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.38.33.27573",
-      "templateHash": "8567211265528173101"
+      "templateHash": "14515754688663656683"
     }
   },
   "parameters": {
@@ -32,6 +32,78 @@
       "defaultValue": ""
     },
     "applicationInsightsName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "googleClientId": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "googleClientSecret": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "githubClientId": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "githubClientSecret": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "jwtSecretKey": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "jwtAlgorithm": {
+      "type": "string",
+      "defaultValue": "HS256"
+    },
+    "jwtAccessTokenExpireMinutes": {
+      "type": "int",
+      "defaultValue": 60
+    },
+    "jwtRefreshTokenExpireDays": {
+      "type": "int",
+      "defaultValue": 7
+    },
+    "smtpHost": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "smtpPort": {
+      "type": "int",
+      "defaultValue": 587
+    },
+    "smtpUser": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "smtpPassword": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "smtpFromEmail": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "smtpFromName": {
+      "type": "string",
+      "defaultValue": "German Tutor"
+    },
+    "smtpUseTls": {
+      "type": "string",
+      "defaultValue": "true"
+    },
+    "verificationTokenExpireHours": {
+      "type": "int",
+      "defaultValue": 24
+    },
+    "passwordResetTokenExpireHours": {
+      "type": "int",
+      "defaultValue": 1
+    },
+    "frontendUrl": {
       "type": "string",
       "defaultValue": ""
     }
@@ -426,6 +498,58 @@
           },
           "backendIdentityPrincipalId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'backend-identity'), '2025-04-01').outputs.principalId.value]"
+          },
+          "frontendUrl": "[if(not(empty(parameters('frontendUrl'))), createObject('value', parameters('frontendUrl')), createObject('value', 'https://placeholder.azurestaticapps.net'))]",
+          "googleClientId": {
+            "value": "[parameters('googleClientId')]"
+          },
+          "googleClientSecret": {
+            "value": "[parameters('googleClientSecret')]"
+          },
+          "githubClientId": {
+            "value": "[parameters('githubClientId')]"
+          },
+          "githubClientSecret": {
+            "value": "[parameters('githubClientSecret')]"
+          },
+          "jwtSecretKey": {
+            "value": "[parameters('jwtSecretKey')]"
+          },
+          "jwtAlgorithm": {
+            "value": "[parameters('jwtAlgorithm')]"
+          },
+          "jwtAccessTokenExpireMinutes": {
+            "value": "[parameters('jwtAccessTokenExpireMinutes')]"
+          },
+          "jwtRefreshTokenExpireDays": {
+            "value": "[parameters('jwtRefreshTokenExpireDays')]"
+          },
+          "smtpHost": {
+            "value": "[parameters('smtpHost')]"
+          },
+          "smtpPort": {
+            "value": "[parameters('smtpPort')]"
+          },
+          "smtpUser": {
+            "value": "[parameters('smtpUser')]"
+          },
+          "smtpPassword": {
+            "value": "[parameters('smtpPassword')]"
+          },
+          "smtpFromEmail": {
+            "value": "[parameters('smtpFromEmail')]"
+          },
+          "smtpFromName": {
+            "value": "[parameters('smtpFromName')]"
+          },
+          "smtpUseTls": {
+            "value": "[parameters('smtpUseTls')]"
+          },
+          "verificationTokenExpireHours": {
+            "value": "[parameters('verificationTokenExpireHours')]"
+          },
+          "passwordResetTokenExpireHours": {
+            "value": "[parameters('passwordResetTokenExpireHours')]"
           }
         },
         "template": {
@@ -435,7 +559,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.38.33.27573",
-              "templateHash": "11274476064907615443"
+              "templateHash": "5190931030660344889"
             }
           },
           "parameters": {
@@ -489,6 +613,77 @@
             },
             "backendIdentityPrincipalId": {
               "type": "string"
+            },
+            "frontendUrl": {
+              "type": "string"
+            },
+            "googleClientId": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "googleClientSecret": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "githubClientId": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "githubClientSecret": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "jwtSecretKey": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "jwtAlgorithm": {
+              "type": "string",
+              "defaultValue": "HS256"
+            },
+            "jwtAccessTokenExpireMinutes": {
+              "type": "int",
+              "defaultValue": 60
+            },
+            "jwtRefreshTokenExpireDays": {
+              "type": "int",
+              "defaultValue": 7
+            },
+            "smtpHost": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "smtpPort": {
+              "type": "int",
+              "defaultValue": 587
+            },
+            "smtpUser": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "smtpPassword": {
+              "type": "securestring",
+              "defaultValue": ""
+            },
+            "smtpFromEmail": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "smtpFromName": {
+              "type": "string",
+              "defaultValue": "German Tutor"
+            },
+            "smtpUseTls": {
+              "type": "string",
+              "defaultValue": "true"
+            },
+            "verificationTokenExpireHours": {
+              "type": "int",
+              "defaultValue": 24
+            },
+            "passwordResetTokenExpireHours": {
+              "type": "int",
+              "defaultValue": 1
             }
           },
           "resources": [
@@ -568,6 +763,30 @@
                     {
                       "name": "registry-password",
                       "value": "[listCredentials(resourceId('Microsoft.ContainerRegistry/registries', replace(parameters('containerRegistryName'), '-', '')), '2023-11-01-preview').passwords[0].value]"
+                    },
+                    {
+                      "name": "google-client-id",
+                      "value": "[parameters('googleClientId')]"
+                    },
+                    {
+                      "name": "google-client-secret",
+                      "value": "[parameters('googleClientSecret')]"
+                    },
+                    {
+                      "name": "github-client-id",
+                      "value": "[parameters('githubClientId')]"
+                    },
+                    {
+                      "name": "github-client-secret",
+                      "value": "[parameters('githubClientSecret')]"
+                    },
+                    {
+                      "name": "jwt-secret-key",
+                      "value": "[parameters('jwtSecretKey')]"
+                    },
+                    {
+                      "name": "smtp-password",
+                      "value": "[parameters('smtpPassword')]"
                     }
                   ]
                 },
@@ -616,6 +835,78 @@
                         {
                           "name": "COSMOSDB_CONVERSATIONS_CONTAINER",
                           "value": "[parameters('cosmosDbConversationsContainer')]"
+                        },
+                        {
+                          "name": "FRONTEND_URL",
+                          "value": "[parameters('frontendUrl')]"
+                        },
+                        {
+                          "name": "GOOGLE_CLIENT_ID",
+                          "secretRef": "google-client-id"
+                        },
+                        {
+                          "name": "GOOGLE_CLIENT_SECRET",
+                          "secretRef": "google-client-secret"
+                        },
+                        {
+                          "name": "GITHUB_CLIENT_ID",
+                          "secretRef": "github-client-id"
+                        },
+                        {
+                          "name": "GITHUB_CLIENT_SECRET",
+                          "secretRef": "github-client-secret"
+                        },
+                        {
+                          "name": "JWT_SECRET_KEY",
+                          "secretRef": "jwt-secret-key"
+                        },
+                        {
+                          "name": "JWT_ALGORITHM",
+                          "value": "[parameters('jwtAlgorithm')]"
+                        },
+                        {
+                          "name": "JWT_ACCESS_TOKEN_EXPIRE_MINUTES",
+                          "value": "[string(parameters('jwtAccessTokenExpireMinutes'))]"
+                        },
+                        {
+                          "name": "JWT_REFRESH_TOKEN_EXPIRE_DAYS",
+                          "value": "[string(parameters('jwtRefreshTokenExpireDays'))]"
+                        },
+                        {
+                          "name": "SMTP_HOST",
+                          "value": "[parameters('smtpHost')]"
+                        },
+                        {
+                          "name": "SMTP_PORT",
+                          "value": "[string(parameters('smtpPort'))]"
+                        },
+                        {
+                          "name": "SMTP_USER",
+                          "value": "[parameters('smtpUser')]"
+                        },
+                        {
+                          "name": "SMTP_PASSWORD",
+                          "secretRef": "smtp-password"
+                        },
+                        {
+                          "name": "SMTP_FROM_EMAIL",
+                          "value": "[parameters('smtpFromEmail')]"
+                        },
+                        {
+                          "name": "SMTP_FROM_NAME",
+                          "value": "[parameters('smtpFromName')]"
+                        },
+                        {
+                          "name": "SMTP_USE_TLS",
+                          "value": "[parameters('smtpUseTls')]"
+                        },
+                        {
+                          "name": "VERIFICATION_TOKEN_EXPIRE_HOURS",
+                          "value": "[string(parameters('verificationTokenExpireHours'))]"
+                        },
+                        {
+                          "name": "PASSWORD_RESET_TOKEN_EXPIRE_HOURS",
+                          "value": "[string(parameters('passwordResetTokenExpireHours'))]"
                         }
                       ]
                     }
@@ -719,7 +1010,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.38.33.27573",
-              "templateHash": "2186838250287320499"
+              "templateHash": "459198144816172098"
             }
           },
           "parameters": {
@@ -820,6 +1111,79 @@
               ]
             },
             {
+              "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+              "apiVersion": "2024-05-15",
+              "name": "[format('{0}/{1}/{2}', parameters('name'), parameters('databaseName'), 'Users')]",
+              "properties": {
+                "resource": {
+                  "id": "Users",
+                  "partitionKey": {
+                    "kind": "Hash",
+                    "paths": [
+                      "/email"
+                    ]
+                  },
+                  "indexingPolicy": {
+                    "indexingMode": "consistent",
+                    "includedPaths": [
+                      {
+                        "path": "/*"
+                      }
+                    ],
+                    "excludedPaths": [
+                      {
+                        "path": "/\"_etag\"/?"
+                      }
+                    ]
+                  },
+                  "uniqueKeyPolicy": {
+                    "uniqueKeys": [
+                      {
+                        "paths": [
+                          "/email"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('name'), parameters('databaseName'))]"
+              ]
+            },
+            {
+              "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+              "apiVersion": "2024-05-15",
+              "name": "[format('{0}/{1}/{2}', parameters('name'), parameters('databaseName'), 'UserProgress')]",
+              "properties": {
+                "resource": {
+                  "id": "UserProgress",
+                  "partitionKey": {
+                    "kind": "Hash",
+                    "paths": [
+                      "/user_id"
+                    ]
+                  },
+                  "indexingPolicy": {
+                    "indexingMode": "consistent",
+                    "includedPaths": [
+                      {
+                        "path": "/*"
+                      }
+                    ],
+                    "excludedPaths": [
+                      {
+                        "path": "/\"_etag\"/?"
+                      }
+                    ]
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('name'), parameters('databaseName'))]"
+              ]
+            },
+            {
               "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
               "apiVersion": "2021-04-15",
               "name": "[format('{0}/{1}', parameters('name'), guid(variables('cosmosDataContributor'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('backendIdentityName')), resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('name'))))]",
@@ -845,6 +1209,14 @@
             "conversationsContainerName": {
               "type": "string",
               "value": "Conversations"
+            },
+            "usersContainerName": {
+              "type": "string",
+              "value": "Users"
+            },
+            "userProgressContainerName": {
+              "type": "string",
+              "value": "UserProgress"
             },
             "accountId": {
               "type": "string",

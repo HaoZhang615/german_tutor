@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     azure_openai_api_key: str = ""  # Optional: uses managed identity if not set
     azure_openai_realtime_deployment: str = "gpt-realtime"
     azure_openai_tts_deployment: str = "gpt-4o-mini-tts"
+    azure_openai_chat_deployment: str = "gpt-4.1-mini"  # For summaries
     azure_openai_api_version: str = "2025-04-01-preview"
 
     # Azure CosmosDB Configuration

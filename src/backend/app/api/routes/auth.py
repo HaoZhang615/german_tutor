@@ -20,7 +20,6 @@ from app.models.user import (
     UserRead,
 )
 from app.services.auth import (
-    create_token,
     create_tokens,
     get_oauth_client,
     verify_access_token,

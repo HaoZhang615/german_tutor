@@ -29,10 +29,10 @@ async def preview_voice(
     Returns MP3 audio data for the specified voice.
     """
     settings = get_settings()
-    
+
     if not settings.azure_openai_endpoint:
         raise HTTPException(status_code=503, detail="Azure OpenAI endpoint not configured")
-    
+
     if not settings.azure_openai_tts_deployment:
         raise HTTPException(status_code=503, detail="TTS deployment not configured")
 
@@ -54,7 +54,7 @@ async def preview_voice(
             api_version=api_version,
             azure_endpoint=settings.azure_openai_endpoint
         )
-    
+
     try:
         response = await client.audio.speech.create(
             model=settings.azure_openai_tts_deployment,
@@ -62,9 +62,9 @@ async def preview_voice(
             input=PREVIEW_TEXT,
             response_format="mp3"
         )
-        
+
         audio_data = response.content
-            
+
         return Response(
             content=audio_data,
             media_type="audio/mpeg",
@@ -73,7 +73,7 @@ async def preview_voice(
                 "Cache-Control": "public, max-age=86400",
             }
         )
-            
+
     except Exception as e:
         logger.error(f"TTS API error: {e}")
         raise HTTPException(status_code=502, detail=f"TTS API request error: {str(e)}")

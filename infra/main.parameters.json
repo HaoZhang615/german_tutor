@@ -8,8 +8,59 @@
     "location": {
       "value": "${AZURE_LOCATION}"
     },
-    "openAiApiKey": {
-      "value": "${AZURE_OPENAI_API_KEY=}"
+    "frontendUrl": {
+      "value": "${FRONTEND_URL=}"
+    },
+    "googleClientId": {
+      "value": "${GOOGLE_CLIENT_ID=}"
+    },
+    "googleClientSecret": {
+      "value": "${GOOGLE_CLIENT_SECRET=}"
+    },
+    "githubClientId": {
+      "value": "${GITHUB_CLIENT_ID=}"
+    },
+    "githubClientSecret": {
+      "value": "${GITHUB_CLIENT_SECRET=}"
+    },
+    "jwtSecretKey": {
+      "value": "${JWT_SECRET_KEY=}"
+    },
+    "jwtAlgorithm": {
+      "value": "${JWT_ALGORITHM=HS256}"
+    },
+    "jwtAccessTokenExpireMinutes": {
+      "value": "${JWT_ACCESS_TOKEN_EXPIRE_MINUTES=60}"
+    },
+    "jwtRefreshTokenExpireDays": {
+      "value": "${JWT_REFRESH_TOKEN_EXPIRE_DAYS=7}"
+    },
+    "smtpHost": {
+      "value": "${SMTP_HOST=}"
+    },
+    "smtpPort": {
+      "value": "${SMTP_PORT=587}"
+    },
+    "smtpUser": {
+      "value": "${SMTP_USER=}"
+    },
+    "smtpPassword": {
+      "value": "${SMTP_PASSWORD=}"
+    },
+    "smtpFromEmail": {
+      "value": "${SMTP_FROM_EMAIL=}"
+    },
+    "smtpFromName": {
+      "value": "${SMTP_FROM_NAME=German Tutor}"
+    },
+    "smtpUseTls": {
+      "value": "${SMTP_USE_TLS=true}"
+    },
+    "verificationTokenExpireHours": {
+      "value": "${VERIFICATION_TOKEN_EXPIRE_HOURS=24}"
+    },
+    "passwordResetTokenExpireHours": {
+      "value": "${PASSWORD_RESET_TOKEN_EXPIRE_HOURS=1}"
     }
   }
 }

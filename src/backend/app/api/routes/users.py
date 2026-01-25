@@ -5,7 +5,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.routes.auth import get_current_user, get_current_verified_user
+from app.api.routes.auth import get_current_user
 from app.models.user import User, UserRead, UserUpdate
 from app.services.user_db import get_user_db
 

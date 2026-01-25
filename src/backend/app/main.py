@@ -1,15 +1,17 @@
 """FastAPI main application module."""
 
 import logging
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, conversations, health, settings as settings_routes, tts, users
+from app.api.routes import auth, conversations, health, tts, users
+from app.api.routes import settings as settings_routes
 from app.api.websocket import realtime
 from app.config import get_settings
+from app.services.auth import reset_oauth_client
 
 # Configure logging
 logging.basicConfig(
@@ -20,8 +22,11 @@ logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     """Application lifespan handler for startup and shutdown events."""
+    # Clear caches to ensure fresh load after uvicorn --env-file
+    get_settings.cache_clear()
+    reset_oauth_client()
     settings = get_settings()
     logger.info("Starting German Tutor Backend...")
     logger.info(f"Azure OpenAI Endpoint: {settings.azure_openai_endpoint}")
