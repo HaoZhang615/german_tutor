@@ -16,7 +16,129 @@
     "subtitle": "与智能AI家教一起掌握德语。根据您的水平进行实时语音对话。",
     "selectLevel": "选择您的德语水平",
     "selectVoice": "选择家教声音",
-    "start": "开始学习"
+    "start": "开始学习",
+    "levelHelp": "这有助于我们调整对话难度",
+    "chooseLearningMode": "选择学习模式",
+    "modeHelp": "教师模式提供指导，沉浸模式是严格的角色扮演",
+    "chooseScenario": "选择场景",
+    "scenarioHelp": "练习真实场景对话",
+    "scenariosAvailable": "{{level}}级别可用{{count}}个场景",
+    "scenariosForLevel": "{{level}}级别场景",
+    "clearSelection": "清除选择",
+    "showMore": "显示更多{{count}}个场景",
+    "showLess": "收起",
+    "startingScenario": "开始场景：",
+    "startMission": "开始任务",
+    "selectScenarioHint": "或选择上方场景进行引导练习"
+  },
+  "mode": {
+    "teacher": "教师模式",
+    "teacherDesc": "用您的母语提供指导、纠正和解释",
+    "immersive": "沉浸模式",
+    "immersiveDesc": "严格角色扮演，不打破角色，只用德语"
+  },
+  "scenario": {
+    "talkingTo": "对话对象：{{role}}",
+    "practicing": "与家教练习中",
+    "role": "角色",
+    "level": "级别",
+    "difficulty": {
+      "Easy": "简单",
+      "Medium": "中等",
+      "Hard": "困难"
+    },
+    "roles": {
+      "Barista": "咖啡师",
+      "Passerby": "路人",
+      "Shop Assistant": "店员",
+      "Waiter": "服务员",
+      "Ticket Agent": "售票员",
+      "Receptionist": "接待员",
+      "Landlord": "房东",
+      "Interviewer": "面试官",
+      "University Administrator": "大学管理员",
+      "Service Agent": "客服人员",
+      "Cashier": "收银员",
+      "Hotel Receptionist": "酒店前台",
+      "Bank Clerk": "银行职员",
+      "Mechanic": "汽车修理工",
+      "Business Partner": "商业伙伴",
+      "Political Analyst": "政治分析师",
+      "Lawyer": "律师",
+      "Literature Professor": "文学教授"
+    },
+    "cafe-order": {
+      "title": "点咖啡",
+      "description": "在柏林咖啡馆点一杯饮料和小吃。"
+    },
+    "asking-directions": {
+      "title": "问路",
+      "description": "向陌生人询问最近的地铁站怎么走。"
+    },
+    "shopping-clothes": {
+      "title": "购买衣服",
+      "description": "询问不同的尺寸或颜色，并查看价格。"
+    },
+    "restaurant-dinner": {
+      "title": "餐厅晚餐",
+      "description": "预订座位，点一顿完整的餐点，并要求结账。"
+    },
+    "train-ticket": {
+      "title": "购买火车票",
+      "description": "购买去慕尼黑的车票，询问时刻表和换乘信息。"
+    },
+    "doctor-visit": {
+      "title": "看医生",
+      "description": "描述您的症状并预约。"
+    },
+    "apartment-hunting": {
+      "title": "租房",
+      "description": "打电话给房东询问房源信息并预约看房。"
+    },
+    "job-interview": {
+      "title": "工作面试",
+      "description": "回答关于您的经验和优势的问题。"
+    },
+    "university-registration": {
+      "title": "大学注册",
+      "description": "讨论入学要求和缺少的文件。"
+    },
+    "customer-service": {
+      "title": "客服投诉",
+      "description": "投诉网络连接故障并要求退款。"
+    },
+    "supermarket-checkout": {
+      "title": "在超市",
+      "description": "购买食品杂货并询问商品在哪里。"
+    },
+    "hotel-checkin": {
+      "title": "酒店入住",
+      "description": "办理酒店入住并询问早餐时间和WiFi。"
+    },
+    "bank-account": {
+      "title": "开设银行账户",
+      "description": "开设活期账户并询问费用和网上银行。"
+    },
+    "car-repair": {
+      "title": "在汽修店",
+      "description": "解释汽车问题并讨论维修方案和费用。"
+    },
+    "business-meeting": {
+      "title": "商务谈判",
+      "description": "与德国公司协商合作协议条款。"
+    },
+    "political-debate": {
+      "title": "政治讨论",
+      "description": "讨论当前政治问题并表达细致入微的观点。"
+    },
+    "legal-consultation": {
+      "title": "法律咨询",
+      "description": "与律师讨论租赁纠纷并了解您的权利。"
+    },
+    "literary-discussion": {
+      "title": "文学讨论",
+      "description": "讨论德国文学并分析主题和写作风格。"
+    }
   },
   "actions": {
     "start": "开始学习",
@@ -40,6 +162,12 @@
   "controls": {
     "switchToVoice": "切换到语音模式",
     "keyboard": "使用键盘"
+  },
+  "tutor": {
+    "endConversation": "结束对话",
+    "conversationSaved": "对话已保存！",
+    "checkHistoryForEvaluation": "您的对话已记录。查看历史记录以获取详细的表现评估。",
+    "viewHistory": "查看历史"
   },
   "language": {
     "en": "英语",
@@ -91,6 +219,9 @@
     "loginSubtitle": "登录以继续您的德语学习之旅",
     "signingIn": "登录中...",
     "signIn": "登录",
+    "signInWith": "选择登录方式",
+    "continueWithGoogle": "使用 Google 登录",
+    "continueWithGithub": "使用 GitHub 登录",
     "resetLinkSent": "我们已向以下邮箱发送了密码重置链接",
     "clickToReset": "请点击链接重置您的密码。",
     "forgotPasswordSubtitle": "输入您的邮箱以接收重置链接",

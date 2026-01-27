@@ -16,7 +16,129 @@
     "subtitle": "Meistern Sie Deutsch mit einem intelligenten KI-Tutor. Echtzeit-Sprachgesprache, angepasst an Ihr Niveau.",
     "selectLevel": "Wahlen Sie Ihr Sprachniveau",
     "selectVoice": "Tutor-Stimme wahlen",
-    "start": "Lernen starten"
+    "start": "Lernen starten",
+    "levelHelp": "Dies hilft uns, die Gesprachsschwierigkeit anzupassen",
+    "chooseLearningMode": "Wahlen Sie Ihren Lernmodus",
+    "modeHelp": "Lehrer-Modus bietet Anleitung, Immersiv-Modus ist striktes Rollenspiel",
+    "chooseScenario": "Wahlen Sie ein Szenario",
+    "scenarioHelp": "Uben Sie reale Gesprache",
+    "scenariosAvailable": "{{count}} Szenarien verfugbar fur {{level}}",
+    "scenariosForLevel": "Szenarien fur {{level}}",
+    "clearSelection": "Auswahl loschen",
+    "showMore": "{{count}} weitere Szenarien anzeigen",
+    "showLess": "Weniger anzeigen",
+    "startingScenario": "Startszenario:",
+    "startMission": "Mission starten",
+    "selectScenarioHint": "Oder wahlen Sie oben ein Szenario fur gefuhrtes Uben"
+  },
+  "mode": {
+    "teacher": "Lehrer",
+    "teacherDesc": "Anleitung, Korrekturen und Erklarungen in Ihrer Muttersprache",
+    "immersive": "Immersiv",
+    "immersiveDesc": "Striktes Rollenspiel, kein Ausbrechen aus der Rolle, nur Deutsch"
+  },
+  "scenario": {
+    "talkingTo": "Gesprachspartner: {{role}}",
+    "practicing": "Uben mit Tutor",
+    "role": "Rolle",
+    "level": "Stufe",
+    "difficulty": {
+      "Easy": "Einfach",
+      "Medium": "Mittel",
+      "Hard": "Schwer"
+    },
+    "roles": {
+      "Barista": "Barista",
+      "Passerby": "Passant",
+      "Shop Assistant": "Verkaufer",
+      "Waiter": "Kellner",
+      "Ticket Agent": "Fahrkartenverkaufer",
+      "Receptionist": "Rezeptionist",
+      "Landlord": "Vermieter",
+      "Interviewer": "Interviewer",
+      "University Administrator": "Universitatsverwaltung",
+      "Service Agent": "Kundendienstmitarbeiter",
+      "Cashier": "Kassierer",
+      "Hotel Receptionist": "Hotelrezeptionist",
+      "Bank Clerk": "Bankangestellter",
+      "Mechanic": "Mechaniker",
+      "Business Partner": "Geschaftspartner",
+      "Political Analyst": "Politischer Analyst",
+      "Lawyer": "Anwalt",
+      "Literature Professor": "Literaturprofessor"
+    },
+    "cafe-order": {
+      "title": "Kaffee bestellen",
+      "description": "Bestellen Sie ein Getrank und einen Snack in einem Berliner Cafe."
+    },
+    "asking-directions": {
+      "title": "Nach dem Weg fragen",
+      "description": "Fragen Sie einen Fremden nach dem Weg zur nachsten U-Bahn-Station."
+    },
+    "shopping-clothes": {
+      "title": "Kleidung kaufen",
+      "description": "Fragen Sie nach einer anderen Grosse oder Farbe und erkundigen Sie sich nach dem Preis."
+    },
+    "restaurant-dinner": {
+      "title": "Abendessen im Restaurant",
+      "description": "Reservieren Sie einen Tisch, bestellen Sie ein Menu und fragen Sie nach der Rechnung."
+    },
+    "train-ticket": {
+      "title": "Zugticket kaufen",
+      "description": "Kaufen Sie ein Ticket nach Munchen und fragen Sie nach Fahrplanen und Umsteigemoglichkeiten."
+    },
+    "doctor-visit": {
+      "title": "Beim Arzt",
+      "description": "Beschreiben Sie Ihre Symptome und vereinbaren Sie einen Termin."
+    },
+    "apartment-hunting": {
+      "title": "Wohnungssuche",
+      "description": "Rufen Sie einen Vermieter an, um sich nach einer Anzeige zu erkundigen und einen Besichtigungstermin zu vereinbaren."
+    },
+    "job-interview": {
+      "title": "Vorstellungsgesprach",
+      "description": "Beantworten Sie Fragen zu Ihrer Erfahrung und Ihren Starken."
+    },
+    "university-registration": {
+      "title": "Immatrikulation",
+      "description": "Besprechen Sie die Immatrikulationsvoraussetzungen und fehlende Unterlagen."
+    },
+    "customer-service": {
+      "title": "Kundenservice-Beschwerde",
+      "description": "Beschweren Sie sich uber eine defekte Internetverbindung und fordern Sie eine Ruckerstattung."
+    },
+    "supermarket-checkout": {
+      "title": "Im Supermarkt",
+      "description": "Kaufen Sie Lebensmittel ein und fragen Sie, wo Sie Produkte finden."
+    },
+    "hotel-checkin": {
+      "title": "Hotel-Einchecken",
+      "description": "Checken Sie im Hotel ein und fragen Sie nach Fruhstuckszeiten und WLAN."
+    },
+    "bank-account": {
+      "title": "Bankkonto eroffnen",
+      "description": "Eroffnen Sie ein Girokonto und fragen Sie nach Gebuhren und Online-Banking."
+    },
+    "car-repair": {
+      "title": "In der Autowerkstatt",
+      "description": "Erklaren Sie Autoprobleme und besprechen Sie Reparaturoptionen und Kosten."
+    },
+    "business-meeting": {
+      "title": "Geschaftsverhandlung",
+      "description": "Verhandeln Sie die Bedingungen einer Partnerschaftsvereinbarung mit einem deutschen Unternehmen."
+    },
+    "political-debate": {
+      "title": "Politische Diskussion",
+      "description": "Diskutieren Sie aktuelle politische Themen und drucken Sie differenzierte Meinungen aus."
+    },
+    "legal-consultation": {
+      "title": "Rechtsberatung",
+      "description": "Besprechen Sie einen Mietstreit mit einem Anwalt und verstehen Sie Ihre Rechte."
+    },
+    "literary-discussion": {
+      "title": "Literarische Diskussion",
+      "description": "Diskutieren Sie deutsche Literatur und analysieren Sie Themen und Schreibstile."
+    }
   },
   "actions": {
     "start": "Lernen starten",
@@ -40,6 +162,12 @@
   "controls": {
     "switchToVoice": "Zum Sprachmodus wechseln",
     "keyboard": "Tastatur verwenden"
+  },
+  "tutor": {
+    "endConversation": "Gesprach beenden",
+    "conversationSaved": "Gesprach gespeichert!",
+    "checkHistoryForEvaluation": "Ihr Gesprach wurde protokolliert. Schauen Sie in Ihren Verlauf fur eine detaillierte Bewertung Ihrer Leistung.",
+    "viewHistory": "Verlauf anzeigen"
   },
   "language": {
     "en": "Englisch",
@@ -91,6 +219,9 @@
     "loginSubtitle": "Melden Sie sich an, um Ihre Deutschreise fortzusetzen",
     "signingIn": "Anmelden...",
     "signIn": "Anmelden",
+    "signInWith": "Wahlen Sie Ihre Anmeldemethode",
+    "continueWithGoogle": "Mit Google fortfahren",
+    "continueWithGithub": "Mit GitHub fortfahren",
     "resetLinkSent": "Wir haben einen Link zum Zurucksetzen des Passworts gesendet an",
     "clickToReset": "Bitte klicken Sie auf den Link, um Ihr Passwort zuruckzusetzen.",
     "forgotPasswordSubtitle": "Geben Sie Ihre E-Mail ein, um einen Reset-Link zu erhalten",

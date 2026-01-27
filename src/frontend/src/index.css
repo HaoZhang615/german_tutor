@@ -32,10 +32,126 @@
   .card {
     @apply bg-white rounded-xl shadow-sm border border-gray-100;
   }
+
+  /* Glass morphism panel */
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-lg;
+  }
+
+  /* Scenario card with hover effect */
+  .scenario-card {
+    @apply bg-white/60 backdrop-blur-md border border-gray-200/50 rounded-2xl p-6 cursor-pointer;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-white/80 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02];
+    @apply hover:border-german-gold/50;
+  }
+
+  .scenario-card.selected {
+    @apply bg-amber-50/80 border-german-gold shadow-lg shadow-german-gold/10;
+  }
+
+  /* Mode selector button */
+  .mode-btn {
+    @apply flex items-center gap-3 p-4 rounded-xl border border-transparent;
+    @apply bg-gray-50/50 text-gray-600 cursor-pointer;
+    @apply transition-all duration-200 ease-out;
+    @apply hover:bg-gray-100/80;
+  }
+
+  .mode-btn.active {
+    @apply bg-amber-50 border-german-gold text-gray-900;
+    @apply shadow-md shadow-german-gold/20 -translate-y-0.5;
+  }
+
+  /* Live transcript with fade mask */
+  .transcript-fade-mask {
+    mask-image: linear-gradient(to bottom, transparent 0px, black 40px, black calc(100% - 40px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 40px, black calc(100% - 40px), transparent 100%);
+  }
 }
 
 @layer utilities {
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Fade in up animation */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  /* Slide in from bottom */
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out forwards;
+  }
+
+  /* Pop in effect */
+  .animate-pop-in {
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  }
+
+  /* Text reveal for streaming */
+  .animate-text-reveal {
+    animation: textReveal 0.6s ease-out forwards;
+  }
+
+  /* Glow effect for buttons */
+  .glow-gold {
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+  }
+
+  /* Hide scrollbar but keep scrollable */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

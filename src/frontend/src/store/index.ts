@@ -7,6 +7,7 @@ import type {
   GermanLevel,
   UILanguage,
   TutorVoice,
+  LearningMode,
   ConnectionStatus,
   SessionStatus,
   Message,
@@ -19,6 +20,8 @@ export const useAppStore = create<AppState>()(
       germanLevel: 'A1',
       uiLanguage: 'en',
       tutorVoice: 'alloy',
+      learningMode: 'teacher',
+      selectedScenarioId: null,
       connectionStatus: 'disconnected',
       sessionStatus: 'idle',
       messages: [],
@@ -30,6 +33,10 @@ export const useAppStore = create<AppState>()(
       setUILanguage: (language: UILanguage) => set({ uiLanguage: language }),
       
       setTutorVoice: (voice: TutorVoice) => set({ tutorVoice: voice }),
+      
+      setLearningMode: (mode: LearningMode) => set({ learningMode: mode }),
+      
+      setSelectedScenarioId: (id: string | null) => set({ selectedScenarioId: id }),
       
       setConnectionStatus: (status: ConnectionStatus) => set({ connectionStatus: status }),
       
@@ -59,6 +66,7 @@ export const useAppStore = create<AppState>()(
         germanLevel: state.germanLevel,
         uiLanguage: state.uiLanguage,
         tutorVoice: state.tutorVoice,
+        learningMode: state.learningMode,
       }),
     }
   )
@@ -93,6 +101,7 @@ export type {
   GermanLevel,
   UILanguage,
   TutorVoice,
+  LearningMode,
   ConnectionStatus,
   SessionStatus,
   Message,

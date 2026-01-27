@@ -4,6 +4,7 @@ export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'er
 export type SessionStatus = 'idle' | 'listening' | 'speaking' | 'thinking';
 export type TutorVoice = 'alloy' | 'ash' | 'ballad' | 'coral' | 'echo' | 'sage' | 'shimmer' | 'verse';
 export type OAuthProvider = 'google' | 'github';
+export type LearningMode = 'teacher' | 'immersive';
 
 export interface Message {
   id: string;
@@ -116,6 +117,8 @@ export interface AppState {
   germanLevel: GermanLevel;
   uiLanguage: UILanguage;
   tutorVoice: TutorVoice;
+  learningMode: LearningMode;
+  selectedScenarioId: string | null;
   connectionStatus: ConnectionStatus;
   sessionStatus: SessionStatus;
   messages: Message[];
@@ -125,6 +128,8 @@ export interface AppState {
   setGermanLevel: (level: GermanLevel) => void;
   setUILanguage: (language: UILanguage) => void;
   setTutorVoice: (voice: TutorVoice) => void;
+  setLearningMode: (mode: LearningMode) => void;
+  setSelectedScenarioId: (id: string | null) => void;
   setConnectionStatus: (status: ConnectionStatus) => void;
   setSessionStatus: (status: SessionStatus) => void;
   addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;

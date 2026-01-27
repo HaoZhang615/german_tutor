@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { useAppStore } from '../store';
 import { getAccessToken, loadConfig } from '../services/api';
+import type { LearningMode } from '../store/types';
 
 const SAMPLE_RATE = 24000;
 
@@ -8,9 +9,11 @@ interface UseWebSocketOptions {
   level: string;
   uiLanguage: string;
   voice: string;
+  learningMode?: LearningMode;
+  scenarioId?: string | null;
 }
 
-export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) {
+export function useWebSocket({ level, uiLanguage, voice, learningMode, scenarioId }: UseWebSocketOptions) {
   const wsRef = useRef<WebSocket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const { setConnectionStatus, setSessionStatus, addMessage } = useAppStore();
@@ -149,7 +152,6 @@ export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) 
     const config = await loadConfig();
     const token = getAccessToken();
     
-    // Build WebSocket URL with auth token
     const params = new URLSearchParams({
       level,
       ui_language: uiLanguage,
@@ -157,6 +159,12 @@ export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) 
     });
     if (token) {
       params.append('token', token);
+    }
+    if (learningMode) {
+      params.append('learning_mode', learningMode);
+    }
+    if (scenarioId) {
+      params.append('scenario_id', scenarioId);
     }
     
     const wsUrl = `${config.wsUrl}/ws/realtime?${params.toString()}`;
@@ -187,7 +195,7 @@ export function useWebSocket({ level, uiLanguage, voice }: UseWebSocketOptions) 
         console.error('Failed to parse message');
       }
     };
-  }, [level, uiLanguage, voice, setConnectionStatus, handleMessage]);
+  }, [level, uiLanguage, voice, learningMode, scenarioId, setConnectionStatus, handleMessage]);
 
   const disconnect = useCallback(() => {
     if (wsRef.current) {

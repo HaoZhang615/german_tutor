@@ -15,7 +15,8 @@ const getApiUrl = async (): Promise<string> => {
       const config = await response.json();
       return config.apiUrl || 'http://localhost:8000';
     }
-  } catch {
+  } catch (error) {
+    void error;
   }
   return 'http://localhost:8000';
 };
@@ -140,7 +141,7 @@ export const VoiceSelector: React.FC = () => {
 
         {isOpen && (
           <ul
-            className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-lg py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+            className="absolute z-50 mt-1 w-full bg-white shadow-lg max-h-60 rounded-lg py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
             role="listbox"
           >
             {VOICES.map((voice) => {

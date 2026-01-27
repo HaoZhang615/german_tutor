@@ -130,6 +130,89 @@ class ConversationLogger:
             logger.error(f"Failed to get conversation {conversation_id}: {e}")
             return None
 
+    def get_all_conversations_full(self, user_id: str) -> list[dict[str, Any]]:
+        """Get all conversations with full message data for export."""
+        if not self.enabled:
+            return []
+
+        try:
+            query = "SELECT * FROM c WHERE c.user_id = @user_id ORDER BY c.created_at DESC"
+            items = list(
+                self.container.query_items(
+                    query=query,
+                    parameters=[{"name": "@user_id", "value": user_id}],
+                    enable_cross_partition_query=True,
+                )
+            )
+            # Map created_at to started_at for frontend compatibility
+            for item in items:
+                item["started_at"] = item.get("created_at")
+            return items
+        except Exception as e:
+            logger.error(f"Failed to get all conversations for export: {e}")
+            return []
+
+    def delete_conversation(self, conversation_id: str, user_id: str) -> bool:
+        """Delete a single conversation. Returns True if deleted."""
+        if not self.enabled:
+            return False
+
+        try:
+            query = "SELECT c.id, c.session_id FROM c WHERE c.id = @id AND c.user_id = @user_id"
+            items = list(
+                self.container.query_items(
+                    query=query,
+                    parameters=[
+                        {"name": "@id", "value": conversation_id},
+                        {"name": "@user_id", "value": user_id},
+                    ],
+                    enable_cross_partition_query=True,
+                )
+            )
+
+            if not items:
+                return False
+
+            item = items[0]
+            self.container.delete_item(item=item["id"], partition_key=item["session_id"])
+            logger.info(f"Deleted conversation {conversation_id}")
+            return True
+        except exceptions.CosmosHttpResponseError as e:
+            logger.error(f"Failed to delete conversation {conversation_id}: {e}")
+            return False
+        except Exception as e:
+            logger.error(f"Failed to delete conversation {conversation_id}: {e}")
+            return False
+
+    def delete_all_conversations(self, user_id: str) -> int:
+        """Delete all conversations for a user. Returns count of deleted items."""
+        if not self.enabled:
+            return 0
+
+        try:
+            query = "SELECT c.id, c.session_id FROM c WHERE c.user_id = @user_id"
+            items = list(
+                self.container.query_items(
+                    query=query,
+                    parameters=[{"name": "@user_id", "value": user_id}],
+                    enable_cross_partition_query=True,
+                )
+            )
+
+            deleted_count = 0
+            for item in items:
+                try:
+                    self.container.delete_item(item=item["id"], partition_key=item["session_id"])
+                    deleted_count += 1
+                except exceptions.CosmosHttpResponseError as e:
+                    logger.error(f"Failed to delete conversation {item['id']}: {e}")
+
+            logger.info(f"Deleted {deleted_count} conversations for user {user_id}")
+            return deleted_count
+        except Exception as e:
+            logger.error(f"Failed to delete conversations for user {user_id}: {e}")
+            return 0
+
 
 _conversation_logger: ConversationLogger | None = None
 

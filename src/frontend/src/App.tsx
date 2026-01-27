@@ -6,10 +6,7 @@ import Home from './pages/Home';
 import Tutor from './pages/Tutor';
 import History from './pages/History';
 import Login from './pages/Login';
-import Register from './pages/Register';
 import VerifyEmail from './pages/VerifyEmail';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import OAuthCallback from './pages/OAuthCallback';
@@ -24,30 +21,6 @@ function App() {
           element={
             <GuestGuard>
               <Login />
-            </GuestGuard>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <GuestGuard>
-              <Register />
-            </GuestGuard>
-          }
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            <GuestGuard>
-              <ForgotPassword />
-            </GuestGuard>
-          }
-        />
-        <Route
-          path="/reset-password"
-          element={
-            <GuestGuard>
-              <ResetPassword />
             </GuestGuard>
           }
         />
