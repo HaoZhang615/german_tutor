@@ -1,4 +1,9 @@
+from typing import Literal
+
 from app.models import GermanLevel
+from app.services.scenarios import Scenario, get_scenario
+
+LearningMode = Literal["teacher", "immersive"]
 
 GERMAN_LEVELS: dict[str, GermanLevel] = {
     "A1": GermanLevel(
@@ -58,7 +63,12 @@ GERMAN_LEVELS: dict[str, GermanLevel] = {
 }
 
 
-def get_system_prompt(level: str, ui_language: str = "en") -> str:
+def get_system_prompt(
+    level: str,
+    ui_language: str = "en",
+    learning_mode: LearningMode = "teacher",
+    scenario_id: str | None = None,
+) -> str:
     level_info = GERMAN_LEVELS.get(level, GERMAN_LEVELS["A1"])
 
     base_instructions = {
@@ -70,9 +80,29 @@ def get_system_prompt(level: str, ui_language: str = "en") -> str:
         "C2": "Use native-level German with all linguistic nuances. Include regional expressions, wordplay, and the full range of German linguistic features. Engage in any topic at the highest level.",
     }
 
+    # Immersive mode with scenario - strict roleplay, no explanations
+    if learning_mode == "immersive" and scenario_id:
+        scenario = get_scenario(scenario_id)
+        if scenario:
+            return _build_immersive_prompt(
+                level_info, scenario, base_instructions.get(level, base_instructions["A1"])
+            )
+
+    # Teacher mode with scenario - guided practice with explanations allowed
+    if learning_mode == "teacher" and scenario_id:
+        scenario = get_scenario(scenario_id)
+        if scenario:
+            return _build_teacher_with_scenario_prompt(
+                level_info,
+                scenario,
+                base_instructions.get(level, base_instructions["A1"]),
+                ui_language,
+            )
+
+    # Teacher mode without scenario - general tutoring
     language_bridge = {
-        "en": "If the student struggles, you may briefly explain in English, but always return to German practice.",
-        "zh": "If the student struggles, you may briefly explain in Chinese (简体中文), but always return to German practice.",
+        "en": "When correcting mistakes or explaining grammar, use English for clarity. The student should understand WHY something is wrong. Only use German for the practice conversation itself.",
+        "zh": "When correcting mistakes or explaining grammar, use Chinese (simplified) for clarity. The student should understand WHY something is wrong in their native language. Only use German for the practice conversation itself.",
         "de": "Bleiben Sie durchgehend auf Deutsch. Vereinfachen Sie bei Bedarf, aber wechseln Sie nicht die Sprache.",
     }
 
@@ -87,13 +117,88 @@ Teaching Guidelines:
 {language_bridge.get(ui_language, language_bridge["en"])}
 
 Conversation Style:
-- Be brief, encouraging and go easy on the pronounciation. 
-- Use positive reinforcement and gentle corrections.
-- Be clear about correctness: IMMEDIATELY correct big grammar mistakes, and awkward phrasing
-- For obvious errors: state the mistake, provide the correct form, and briefly explain why
-- Suggest better wording even when the student's response is technically correct but could be more natural or idiomatic
+- Be encouraging and supportive, keeping feedback constructive
+- IMMEDIATELY correct grammar mistakes - state the error, provide the correct form, explain the rule in the student's UI language (not German)
+- When the student's response is technically correct but unnatural, suggest more idiomatic German expressions
+- Teach native-speaker phrasing: "A German would say it like this: [natural expression]"
+- Point out common learner mistakes vs. how natives actually speak
 - Provide context and cultural insights when relevant
 - Ask follow-up and expanding questions to keep the conversation going and cover broader topics
 - Focus on practical, real-world German usage
 
 Start by greeting the student warmly in German appropriate for their level and asking what they would like to practice today."""
+
+
+def _build_immersive_prompt(
+    level_info: GermanLevel, scenario: Scenario, level_instructions: str
+) -> str:
+    return f"""You are playing the role of a {scenario.target_role} in Germany. This is an immersive language practice session.
+
+SCENARIO: {scenario.title_de} ({scenario.title})
+{scenario.description_de}
+
+YOUR ROLE: {scenario.target_role}
+Stay completely in character. You are a real {scenario.target_role} going about your day.
+
+STUDENT LEVEL: {level_info.code} ({level_info.name})
+{level_instructions}
+
+IMMERSIVE MODE RULES:
+1. ONLY speak German - never break character to explain or translate
+2. Respond naturally as a real {scenario.target_role} would in Germany
+3. If the student makes mistakes, respond as a native would (polite confusion, asking for clarification)
+4. Keep responses concise and realistic for the situation
+5. Use culturally authentic German expressions and mannerisms
+6. If you don't understand, say so in German like a real person would
+
+TOPICS TO NATURALLY INCORPORATE: {", ".join(scenario.topics)}
+
+Begin the scenario by greeting the student as a {scenario.target_role} would, in German appropriate for their level."""
+
+
+def _build_teacher_with_scenario_prompt(
+    level_info: GermanLevel,
+    scenario: Scenario,
+    level_instructions: str,
+    ui_language: str,
+) -> str:
+    language_bridge = {
+        "en": "When correcting mistakes or explaining grammar, use English for clarity. The student should understand WHY something is wrong. Only use German for the roleplay dialogue itself.",
+        "zh": "When correcting mistakes or explaining grammar, use Chinese (simplified) for clarity. The student should understand WHY something is wrong in their native language. Only use German for the roleplay dialogue itself.",
+        "de": "Bleiben Sie durchgehend auf Deutsch. Vereinfachen Sie bei Bedarf, aber wechseln Sie nicht die Sprache.",
+    }
+
+    explanation_language = {
+        "en": "English",
+        "zh": "Chinese (simplified)",
+        "de": "German",
+    }
+
+    return f"""You are a friendly German language tutor helping a student practice a specific scenario.
+
+SCENARIO CONTEXT: {scenario.title_de} ({scenario.title})
+{scenario.description}
+
+The student wants to practice being in a situation with a {scenario.target_role}.
+
+STUDENT LEVEL: {level_info.code} ({level_info.name})
+{level_instructions}
+
+{language_bridge.get(ui_language, language_bridge["en"])}
+
+YOUR ROLE AS TUTOR:
+- Play the role of the {scenario.target_role} to give the student practice
+- Stay mostly in character for the roleplay dialogue (in German)
+- When the student makes mistakes, break character and explain the correction in {explanation_language.get(ui_language, "English")}
+- Provide vocabulary and phrases relevant to this scenario
+- Give cultural tips about how this situation works in Germany
+- Keep the conversation focused on: {", ".join(scenario.topics)}
+
+TEACHING STYLE:
+- Be encouraging and patient
+- IMMEDIATELY correct grammar mistakes - state the error in {explanation_language.get(ui_language, "English")}, provide the correct German form, explain the grammar rule in {explanation_language.get(ui_language, "English")}
+- Suggest more natural, idiomatic German phrasing when appropriate
+- Teach how native speakers would express things in this situation
+- Explain cultural context in {explanation_language.get(ui_language, "English")} when relevant
+
+Start by introducing the scenario in German (appropriate for their level), then begin the roleplay as a {scenario.target_role}."""

@@ -3,7 +3,7 @@ import json
 import logging
 import time
 import uuid
-from typing import Any
+from typing import Any, Literal
 
 import websockets
 from azure.identity import DefaultAzureCredential
@@ -21,18 +21,29 @@ router = APIRouter()
 AZURE_OPENAI_SCOPE = "https://cognitiveservices.azure.com/.default"
 credential = DefaultAzureCredential()
 
+LearningMode = Literal["teacher", "immersive"]
+
 
 class ConversationTracker:
     """Tracks messages during a conversation session for logging."""
 
     def __init__(
-        self, session_id: str, level: str, voice: str, ui_language: str, user_id: str | None = None
+        self,
+        session_id: str,
+        level: str,
+        voice: str,
+        ui_language: str,
+        user_id: str | None = None,
+        learning_mode: LearningMode = "teacher",
+        scenario_id: str | None = None,
     ) -> None:
         self.session_id = session_id
         self.level = level
         self.voice = voice
         self.ui_language = ui_language
         self.user_id = user_id
+        self.learning_mode = learning_mode
+        self.scenario_id = scenario_id
         self.start_time = time.time()
         self.messages: list[dict[str, Any]] = []
 
@@ -172,6 +183,8 @@ async def websocket_realtime(
     voice: str = Query(
         default="alloy", pattern="^(alloy|ash|ballad|coral|echo|sage|shimmer|verse)$"
     ),
+    learning_mode: LearningMode = Query(default="teacher"),
+    scenario_id: str | None = Query(default=None),
     token: str | None = Query(default=None),
 ) -> None:
     settings = get_settings()
@@ -179,7 +192,8 @@ async def websocket_realtime(
     session_id = str(uuid.uuid4())
     logger.info(
         f"Client connected from {client_ip}, session={session_id}, "
-        f"level={level}, ui_language={ui_language}, voice={voice}"
+        f"level={level}, ui_language={ui_language}, voice={voice}, "
+        f"learning_mode={learning_mode}, scenario_id={scenario_id}"
     )
 
     await websocket.accept()
@@ -201,7 +215,15 @@ async def websocket_realtime(
             f"No token provided for session {session_id}, proceeding without authentication"
         )
 
-    tracker = ConversationTracker(session_id, level, voice, ui_language, user_id=user_id)
+    tracker = ConversationTracker(
+        session_id,
+        level,
+        voice,
+        ui_language,
+        user_id=user_id,
+        learning_mode=learning_mode,
+        scenario_id=scenario_id,
+    )
 
     if not settings.azure_openai_endpoint:
         await websocket.send_text(
@@ -229,7 +251,7 @@ async def websocket_realtime(
         async with websockets.connect(azure_ws_url, additional_headers=headers) as azure_ws:
             logger.info("Connected to Azure OpenAI Realtime API")
 
-            system_prompt = get_system_prompt(level, ui_language)
+            system_prompt = get_system_prompt(level, ui_language, learning_mode, scenario_id)
             session_update = {
                 "type": "session.update",
                 "session": {

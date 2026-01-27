@@ -26,8 +26,8 @@ export const Header = () => {
                 <span className="text-german-black font-bold text-lg">D</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-gray-900 leading-tight">German Tutor</span>
-                <span className="text-xs text-gray-500 font-medium">AI Learning</span>
+                <span className="font-bold text-gray-900 leading-tight">{t('app.name')}</span>
+                <span className="text-xs text-gray-500 font-medium">{t('app.tagline')}</span>
               </div>
             </Link>
           </div>

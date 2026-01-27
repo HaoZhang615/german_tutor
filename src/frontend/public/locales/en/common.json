@@ -16,7 +16,129 @@
     "subtitle": "Master German with an intelligent AI tutor. Real-time voice conversations adapted to your level.",
     "selectLevel": "Select your proficiency level",
     "selectVoice": "Select tutor voice",
-    "start": "Start Learning"
+    "start": "Start Learning",
+    "levelHelp": "This helps us adapt the conversation difficulty",
+    "chooseLearningMode": "Choose Your Learning Mode",
+    "modeHelp": "Teacher mode provides guidance, immersive mode is strict roleplay",
+    "chooseScenario": "Choose a Scenario",
+    "scenarioHelp": "Practice real-world conversations",
+    "scenariosAvailable": "{{count}} scenarios available for {{level}}",
+    "scenariosForLevel": "Scenarios for {{level}}",
+    "clearSelection": "Clear selection",
+    "showMore": "Show {{count}} more scenarios",
+    "showLess": "Show less",
+    "startingScenario": "Starting scenario:",
+    "startMission": "Start Mission",
+    "selectScenarioHint": "Or select a scenario above for guided practice"
+  },
+  "mode": {
+    "teacher": "Teacher",
+    "teacherDesc": "Guidance, corrections, and explanations in your native language",
+    "immersive": "Immersive",
+    "immersiveDesc": "Strict roleplay, no character breaks, German only"
+  },
+  "scenario": {
+    "talkingTo": "Talking to: {{role}}",
+    "practicing": "Practicing with tutor",
+    "role": "Role",
+    "level": "Level",
+    "difficulty": {
+      "Easy": "Easy",
+      "Medium": "Medium",
+      "Hard": "Hard"
+    },
+    "roles": {
+      "Barista": "Barista",
+      "Passerby": "Passerby",
+      "Shop Assistant": "Shop Assistant",
+      "Waiter": "Waiter",
+      "Ticket Agent": "Ticket Agent",
+      "Receptionist": "Receptionist",
+      "Landlord": "Landlord",
+      "Interviewer": "Interviewer",
+      "University Administrator": "University Administrator",
+      "Service Agent": "Service Agent",
+      "Cashier": "Cashier",
+      "Hotel Receptionist": "Hotel Receptionist",
+      "Bank Clerk": "Bank Clerk",
+      "Mechanic": "Mechanic",
+      "Business Partner": "Business Partner",
+      "Political Analyst": "Political Analyst",
+      "Lawyer": "Lawyer",
+      "Literature Professor": "Literature Professor"
+    },
+    "cafe-order": {
+      "title": "Ordering Coffee",
+      "description": "Order a drink and a snack at a Berlin café."
+    },
+    "asking-directions": {
+      "title": "Asking for Directions",
+      "description": "Ask a stranger how to get to the nearest subway station."
+    },
+    "shopping-clothes": {
+      "title": "Shopping for Clothes",
+      "description": "Ask for a different size or color and check the price."
+    },
+    "restaurant-dinner": {
+      "title": "Dinner at a Restaurant",
+      "description": "Make a reservation, order a full meal, and ask for the bill."
+    },
+    "train-ticket": {
+      "title": "Buying a Train Ticket",
+      "description": "Buy a ticket to Munich, asking about schedules and transfers."
+    },
+    "doctor-visit": {
+      "title": "At the Doctor",
+      "description": "Describe your symptoms and make an appointment."
+    },
+    "apartment-hunting": {
+      "title": "Renting an Apartment",
+      "description": "Call a landlord to ask about a listing and schedule a viewing."
+    },
+    "job-interview": {
+      "title": "Job Interview",
+      "description": "Answer questions about your experience and strengths."
+    },
+    "university-registration": {
+      "title": "University Registration",
+      "description": "Discuss enrollment requirements and missing documents."
+    },
+    "customer-service": {
+      "title": "Customer Service Complaint",
+      "description": "Complain about a broken internet connection and demand a refund."
+    },
+    "supermarket-checkout": {
+      "title": "At the Supermarket",
+      "description": "Buy groceries and ask where to find items."
+    },
+    "hotel-checkin": {
+      "title": "Hotel Check-In",
+      "description": "Check into a hotel and ask about breakfast times and WiFi."
+    },
+    "bank-account": {
+      "title": "Opening a Bank Account",
+      "description": "Open a checking account and ask about fees and online banking."
+    },
+    "car-repair": {
+      "title": "At the Mechanic",
+      "description": "Explain car problems and discuss repair options and costs."
+    },
+    "business-meeting": {
+      "title": "Business Negotiation",
+      "description": "Negotiate terms of a partnership agreement with a German company."
+    },
+    "political-debate": {
+      "title": "Political Discussion",
+      "description": "Debate current political issues and express nuanced opinions."
+    },
+    "legal-consultation": {
+      "title": "Legal Consultation",
+      "description": "Discuss a rental dispute with a lawyer and understand your rights."
+    },
+    "literary-discussion": {
+      "title": "Literary Discussion",
+      "description": "Discuss German literature and analyze themes and writing styles."
+    }
   },
   "actions": {
     "start": "Start Learning",
@@ -40,6 +162,12 @@
   "controls": {
     "switchToVoice": "Switch to Voice Mode",
     "keyboard": "Use Keyboard"
+  },
+  "tutor": {
+    "endConversation": "End Conversation",
+    "conversationSaved": "Conversation Saved!",
+    "checkHistoryForEvaluation": "Your conversation has been logged. Check your history for a detailed evaluation of your performance.",
+    "viewHistory": "View History"
   },
   "language": {
     "en": "English",
@@ -91,6 +219,9 @@
     "loginSubtitle": "Sign in to continue your German journey",
     "signingIn": "Signing in...",
     "signIn": "Sign in",
+    "signInWith": "Sign in with your preferred provider",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithGithub": "Continue with GitHub",
     "resetLinkSent": "We have sent a password reset link to",
     "clickToReset": "Please click the link to reset your password.",
     "forgotPasswordSubtitle": "Enter your email to receive a reset link",

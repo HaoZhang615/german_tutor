@@ -10,6 +10,7 @@ interface UseAudioRecorderOptions {
 export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const { setIsRecording: setStoreRecording, setAudioLevel } = useAppStore();
   
   const mediaStreamRef = useRef<MediaStream | null>(null);
@@ -73,6 +74,7 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
       });
 
       mediaStreamRef.current = stream;
+      setMediaStream(stream);
       audioContextRef.current = new AudioContext({ sampleRate: SAMPLE_RATE });
 
       const source = audioContextRef.current.createMediaStreamSource(stream);
@@ -138,6 +140,7 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       mediaStreamRef.current = null;
+      setMediaStream(null);
     }
 
     setIsRecording(false);
@@ -156,5 +159,6 @@ export function useAudioRecorder({ onAudioData }: UseAudioRecorderOptions = {}) 
     startRecording,
     stopRecording,
     togglePause,
+    mediaStream,
   };
 }

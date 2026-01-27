@@ -5,17 +5,17 @@ interface AudioVisualizerProps {
   audioLevel: number; 
 }
 
+const BAR_SCALES = [0.95, 1.15, 0.85, 1.25, 0.9, 1.1, 0.8, 1.2, 0.88, 1.18, 0.92, 1.08];
+
 export const AudioVisualizer: React.FC<AudioVisualizerProps> = ({ 
   isRecording, 
   audioLevel 
 }) => {
-  const bars = Array.from({ length: 12 });
-
   return (
     <div className="flex items-end justify-center gap-1 h-12 w-full max-w-[200px]">
-      {bars.map((_, i) => {
+      {BAR_SCALES.map((scale, i) => {
         const height = isRecording 
-          ? Math.max(15, Math.min(100, audioLevel * 100 * (Math.random() * 0.5 + 0.8))) 
+          ? Math.max(15, Math.min(100, audioLevel * 100 * scale)) 
           : 15;
           
         return (
