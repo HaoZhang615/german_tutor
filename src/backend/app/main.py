@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, conversations, health, tts, users
+from app.api.routes import auth, conversations, health, scenarios, tts, users
 from app.api.routes import settings as settings_routes
 from app.api.websocket import realtime
 from app.config import get_settings
@@ -64,6 +64,7 @@ def create_app() -> FastAPI:
     app.include_router(settings_routes.router, prefix="/api", tags=["Settings"])
     app.include_router(conversations.router, prefix="/api", tags=["Conversations"])
     app.include_router(tts.router, prefix="/api", tags=["TTS"])
+    app.include_router(scenarios.router, prefix="/api", tags=["Scenarios"])
 
     # Include WebSocket endpoints
     app.include_router(realtime.router, tags=["Realtime"])

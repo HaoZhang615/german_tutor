@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     cosmosdb_endpoint: str = ""
     cosmosdb_database: str = "GermanTutor"
     cosmosdb_conversations_container: str = "Conversations"
+    cosmosdb_scenarios_container: str = "Scenarios"
 
     # Server Configuration
     backend_host: str = "0.0.0.0"

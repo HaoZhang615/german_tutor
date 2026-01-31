@@ -6,14 +6,18 @@ import { LevelSelector } from '../components/tutor/LevelSelector';
 import { VoiceSelector } from '../components/tutor/VoiceSelector';
 import { ScenarioCard } from '../components/tutor/ScenarioCard';
 import { ModeSelector } from '../components/tutor/ModeSelector';
+import { CreateScenarioModal } from '../components/tutor/CreateScenarioModal';
 import { Button } from '../components/ui/Button';
 import { scenarios } from '../data/scenarios';
 import { useAppStore } from '../store';
+import type { Scenario } from '../store/types';
 
 export default function Home() {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
   const [showAllScenarios, setShowAllScenarios] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [customScenarios, setCustomScenarios] = useState<Scenario[]>([]);
   
   const { 
     germanLevel,
@@ -25,8 +29,9 @@ export default function Home() {
   } = useAppStore();
 
   const filteredScenarios = useMemo(() => {
-    return scenarios.filter(s => s.suggestedLevel === germanLevel);
-  }, [germanLevel]);
+    const allScenarios = [...scenarios, ...customScenarios];
+    return allScenarios.filter(s => s.suggestedLevel === germanLevel);
+  }, [germanLevel, customScenarios]);
 
   const displayedScenarios = showAllScenarios 
     ? filteredScenarios 
@@ -37,7 +42,13 @@ export default function Home() {
     navigate('/tutor');
   };
 
-  const selectedScenario = scenarios.find(s => s.id === selectedScenarioId);
+  const allScenarios = [...scenarios, ...customScenarios];
+  const selectedScenario = allScenarios.find(s => s.id === selectedScenarioId);
+
+  const handleScenarioCreated = (scenario: Scenario) => {
+    setCustomScenarios(prev => [...prev, scenario]);
+    setSelectedScenarioId(scenario.id);
+  };
 
   return (
     <Layout>
@@ -89,14 +100,23 @@ export default function Home() {
                   {t('home.scenarioHelp')} • {t('home.scenariosForLevel', { level: germanLevel })}
                 </p>
               </div>
-              {selectedScenario && (
-                <button
-                  onClick={() => setSelectedScenarioId(null)}
-                  className="text-sm text-gray-500 hover:text-gray-700 underline"
+              <div className="flex items-center gap-3">
+                {selectedScenario && (
+                  <button
+                    onClick={() => setSelectedScenarioId(null)}
+                    className="text-sm text-gray-500 hover:text-gray-700 underline"
+                  >
+                    {t('home.clearSelection')}
+                  </button>
+                )}
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setIsCreateModalOpen(true)}
                 >
-                  {t('home.clearSelection')}
-                </button>
-              )}
+                  {t('scenario.createCustom', 'Create Custom Scenario')}
+                </Button>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -163,6 +183,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <CreateScenarioModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onScenarioCreated={handleScenarioCreated}
+      />
     </Layout>
   );
 }

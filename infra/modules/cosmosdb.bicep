@@ -117,6 +117,29 @@ resource userProgressContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabas
   }
 }
 
+resource scenariosContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-05-15' = {
+  name: 'Scenarios'
+  parent: cosmosDbDatabase
+  properties: {
+    resource: {
+      id: 'Scenarios'
+      partitionKey: {
+        kind: 'Hash'
+        paths: ['/user_id']
+      }
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [
+          { path: '/*' }
+        ]
+        excludedPaths: [
+          { path: '/"_etag"/?' }
+        ]
+      }
+    }
+  }
+}
+
 resource backendIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
   name: backendIdentityName
 }
@@ -138,4 +161,5 @@ output databaseName string = cosmosDbDatabase.name
 output conversationsContainerName string = conversationsContainer.name
 output usersContainerName string = usersContainer.name
 output userProgressContainerName string = userProgressContainer.name
+output scenariosContainerName string = scenariosContainer.name
 output accountId string = cosmosDbAccount.id

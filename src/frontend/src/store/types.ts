@@ -5,6 +5,42 @@ export type SessionStatus = 'idle' | 'listening' | 'speaking' | 'thinking';
 export type TutorVoice = 'alloy' | 'ash' | 'ballad' | 'coral' | 'echo' | 'sage' | 'shimmer' | 'verse';
 export type OAuthProvider = 'google' | 'github';
 export type LearningMode = 'teacher' | 'immersive';
+export type ScenarioDifficulty = 'Easy' | 'Medium' | 'Hard';
+
+// Scenario types - matching backend models (with camelCase for frontend)
+export interface Scenario {
+  id: string;
+  title: string;
+  titleDe: string;
+  description: string;
+  descriptionDe: string;
+  targetRole: string;
+  difficulty: ScenarioDifficulty;
+  suggestedLevel: GermanLevel;
+  icon: string;
+  topics: string[];
+  userId?: string;
+  createdAt?: string;
+  isPublic?: boolean;
+  isCustom?: boolean;
+}
+
+export interface ScenarioCreate {
+  title: string;
+  description: string;
+  targetRole: string;
+  difficulty?: ScenarioDifficulty;
+  suggestedLevel: GermanLevel;
+  topics?: string[];
+  titleDe?: string;
+  descriptionDe?: string;
+  icon?: string;
+}
+
+export interface ScenarioGenerateRequest {
+  topic: string;
+  level: GermanLevel;
+}
 
 export interface Message {
   id: string;
