@@ -71,3 +71,4 @@ Thumbs.db
 .uv/
 uv.lock
 src/frontend/public/config.json
+.sisyphus/
