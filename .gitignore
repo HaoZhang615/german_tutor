@@ -70,3 +70,4 @@ Thumbs.db
 # UV
 .uv/
 uv.lock
+src/frontend/public/config.json
