@@ -11,6 +11,10 @@ export interface Scenario {
   suggestedLevel: GermanLevel;
   icon: string;
   topics: string[];
+  userId?: string;
+  createdAt?: string;
+  isPublic?: boolean;
+  isCustom?: boolean;
 }
 
 export const scenarios: Scenario[] = [

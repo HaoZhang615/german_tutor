@@ -16,16 +16,20 @@ export const ScenarioCard: React.FC<ScenarioCardProps> = ({
   const { t } = useTranslation('common');
   const {
     id,
+    title,
     titleDe,
+    description,
     targetRole,
     difficulty,
     suggestedLevel,
     icon,
+    isCustom,
   } = scenario;
 
-  const translatedTitle = t(`scenario.${id}.title`);
-  const translatedDescription = t(`scenario.${id}.description`);
-  const translatedRole = t(`scenario.roles.${targetRole}`);
+  // For custom scenarios, use direct title/description. For defaults, use translations.
+  const translatedTitle = isCustom ? title : t(`scenario.${id}.title`);
+  const translatedDescription = isCustom ? description : t(`scenario.${id}.description`);
+  const translatedRole = isCustom ? targetRole : t(`scenario.roles.${targetRole}`);
 
   const difficultyColors = {
     Easy: 'bg-green-100 text-green-800 border-green-200',
