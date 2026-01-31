@@ -54,13 +54,7 @@ hooks:
   postprovision:
     windows:
       shell: pwsh
-      run: |
-        Write-Host "Deployment complete!"
-        Write-Host "Frontend URL: $env:FRONTEND_URL"
-        Write-Host "Backend URL: $env:BACKEND_URL"
+      run: ./infra/hooks/postprovision.ps1
     posix:
       shell: bash
-      run: |
-        echo "Deployment complete!"
-        echo "Frontend URL: $FRONTEND_URL"
-        echo "Backend URL: $BACKEND_URL"
+      run: ./infra/hooks/postprovision.sh

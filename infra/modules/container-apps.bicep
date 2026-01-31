@@ -11,6 +11,7 @@ param ttsDeploymentName string
 param cosmosDbEndpoint string = ''
 param cosmosDbDatabase string = ''
 param cosmosDbConversationsContainer string = ''
+param cosmosDbScenariosContainer string = ''
 param backendIdentityId string
 param backendIdentityClientId string
 param backendIdentityPrincipalId string
@@ -183,6 +184,10 @@ resource backendApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'COSMOSDB_CONVERSATIONS_CONTAINER'
               value: cosmosDbConversationsContainer
+            }
+            {
+              name: 'COSMOSDB_SCENARIOS_CONTAINER'
+              value: cosmosDbScenariosContainer
             }
             {
               name: 'FRONTEND_URL'

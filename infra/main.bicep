@@ -107,6 +107,7 @@ module containerApps './modules/container-apps.bicep' = {
     cosmosDbEndpoint: cosmosdb.outputs.endpoint
     cosmosDbDatabase: cosmosdb.outputs.databaseName
     cosmosDbConversationsContainer: cosmosdb.outputs.conversationsContainerName
+    cosmosDbScenariosContainer: cosmosdb.outputs.scenariosContainerName
     backendIdentityId: backendIdentity.outputs.id
     backendIdentityClientId: backendIdentity.outputs.clientId
     backendIdentityPrincipalId: backendIdentity.outputs.principalId
@@ -172,3 +173,4 @@ output FRONTEND_URL string = staticWebApp.outputs.url
 output COSMOSDB_ENDPOINT string = cosmosdb.outputs.endpoint
 output COSMOSDB_DATABASE string = cosmosdb.outputs.databaseName
 output COSMOSDB_CONVERSATIONS_CONTAINER string = cosmosdb.outputs.conversationsContainerName
+output COSMOSDB_SCENARIOS_CONTAINER string = cosmosdb.outputs.scenariosContainerName
