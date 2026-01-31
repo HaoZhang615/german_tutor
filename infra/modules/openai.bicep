@@ -37,7 +37,7 @@ resource realtimeDeployment 'Microsoft.CognitiveServices/accounts/deployments@20
 
 resource ttsDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-06-01-preview' = {
   parent: openAiAccount
-  name: 'gpt-4o-mini-tts'
+  name: 'gpt-mini-tts'
   sku: {
     name: 'GlobalStandard'
     capacity: 5
@@ -45,7 +45,7 @@ resource ttsDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-06
   properties: {
     model: {
       format: 'OpenAI'
-      name: 'gpt-4o-mini-tts'
+      name: 'gpt-mini-tts'
       version: '2025-03-20'
     }
   }

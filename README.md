@@ -1,6 +1,6 @@
 # German Tutor
 
-German Tutor is an AI-powered language learning application designed for native Chinese speakers to practice German through real-time voice conversations. It leverages the Azure OpenAI GPT-4o Realtime API to provide immersive, level-appropriate language tutoring.
+German Tutor is an AI-powered language learning application designed for native Chinese speakers to practice German through real-time voice conversations. It leverages the Azure OpenAI GPT-Realtime API to provide immersive, level-appropriate language tutoring.
 
 ## Features
 
@@ -82,7 +82,7 @@ The frontend will be available at http://localhost:5173.
 
 1. **Voice Input**: User speaks → Browser captures audio → Sent via WebSocket
 2. **Backend Relay**: FastAPI forwards audio to Azure OpenAI Realtime API
-3. **AI Processing**: GPT-4o-realtime processes voice and generates response
+3. **AI Processing**: GPT-realtime processes voice and generates response
 4. **Voice Output**: AI response → WebSocket → Browser plays audio
 5. **Persistence**: Conversations logged to Cosmos DB for history/analytics
 
@@ -101,8 +101,8 @@ The frontend will be available at http://localhost:5173.
 |----------|-------------|
 | `AZURE_OPENAI_ENDPOINT` | The endpoint URL of your Azure OpenAI resource |
 | `AZURE_OPENAI_API_KEY` | Your Azure OpenAI API key (optional if using managed identity) |
-| `AZURE_OPENAI_REALTIME_DEPLOYMENT` | The deployment name of the gpt-4o-realtime model |
-| `AZURE_OPENAI_TTS_DEPLOYMENT` | The deployment name of the gpt-4o-mini-tts model |
+| `AZURE_OPENAI_REALTIME_DEPLOYMENT` | The deployment name of the gpt-realtime model |
+| `AZURE_OPENAI_TTS_DEPLOYMENT` | The deployment name of the gpt-mini-tts model |
 | `AZURE_OPENAI_API_VERSION` | Azure OpenAI API version (default: 2025-04-01-preview) |
 
 ### Database Configuration
@@ -175,7 +175,7 @@ This project is designed to be deployed using the Azure Developer CLI (azd). It 
 
    During deployment, you will be prompted to select:
    - **Azure Location**: The primary region for all resources
-   - **Azure OpenAI Location**: The region for Azure OpenAI (must support `gpt-4o-realtime` and `gpt-4o-mini-tts` models, e.g., `eastus2`)
+   - **Azure OpenAI Location**: The region for Azure OpenAI (must support `gpt-realtime` and `gpt-mini-tts` models, e.g., `eastus2`)
 
 3. After successful deployment:
    - Your local `.env` file will be automatically populated with Azure resource URLs
@@ -273,9 +273,9 @@ azure.yaml               # Azure Developer CLI configuration
 - **API**: Azure OpenAI Realtime API (WebSockets)
 - **Audio Format**: PCM16 at 24kHz
 - **Models**: 
-  - `gpt-4o-realtime` for voice conversations
-  - `gpt-4o-mini-tts` for text-to-speech
-  - `gpt-4o-mini` for scenario generation
+  - `gpt-realtime` for voice conversations
+  - `gpt-mini-tts` for text-to-speech
+  - `gpt-mini` for scenario generation
 
 ### Infrastructure
 - **Hosting**: Azure Container Apps (backend), Azure Static Web Apps (frontend)

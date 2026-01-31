@@ -20,7 +20,7 @@
     "location": {
       "type": "string",
       "metadata": {
-        "description": "Primary location for all resources (must support gpt-realtime and gpt-4o-mini-tts models for Azure OpenAI, e.g., eastus2)"
+        "description": "Primary location for all resources (must support gpt-realtime and gpt-mini-tts models for Azure OpenAI, e.g., eastus2)"
       }
     },
     "containerRegistryName": {
@@ -396,7 +396,7 @@
             {
               "type": "Microsoft.CognitiveServices/accounts/deployments",
               "apiVersion": "2024-06-01-preview",
-              "name": "[format('{0}/{1}', parameters('name'), 'gpt-4o-mini-tts')]",
+              "name": "[format('{0}/{1}', parameters('name'), 'gpt-mini-tts')]",
               "sku": {
                 "name": "GlobalStandard",
                 "capacity": 5
@@ -404,7 +404,7 @@
               "properties": {
                 "model": {
                   "format": "OpenAI",
-                  "name": "gpt-4o-mini-tts",
+                  "name": "gpt-mini-tts",
                   "version": "2025-03-20"
                 }
               },
@@ -433,7 +433,7 @@
             },
             "ttsDeploymentName": {
               "type": "string",
-              "value": "gpt-4o-mini-tts"
+              "value": "gpt-mini-tts"
             }
           }
         }

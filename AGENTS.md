@@ -273,7 +273,7 @@ src/
 
 Required in `.env`:
 - `AZURE_OPENAI_ENDPOINT` - Azure OpenAI resource URL
-- `AZURE_OPENAI_REALTIME_DEPLOYMENT` - gpt-4o-realtime deployment name
+- `AZURE_OPENAI_REALTIME_DEPLOYMENT` - gpt-realtime deployment name
 - `COSMOSDB_ENDPOINT` - Azure Cosmos DB endpoint URL
 - `COSMOSDB_DATABASE` - Database name (default: GermanTutor)
 - `COSMOSDB_SCENARIOS_CONTAINER` - Container for custom scenarios

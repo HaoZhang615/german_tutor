@@ -5,7 +5,7 @@ targetScope = 'subscription'
 @description('Name of the environment (e.g., dev, staging, prod)')
 param environmentName string
 
-@description('Primary location for all resources (must support gpt-realtime and gpt-4o-mini-tts models for Azure OpenAI, e.g., eastus2)')
+@description('Primary location for all resources (must support gpt-realtime and gpt-mini-tts models for Azure OpenAI, e.g., eastus2)')
 param location string
 
 param containerRegistryName string = ''
