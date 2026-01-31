@@ -251,7 +251,9 @@ async def websocket_realtime(
         async with websockets.connect(azure_ws_url, additional_headers=headers) as azure_ws:
             logger.info("Connected to Azure OpenAI Realtime API")
 
-            system_prompt = get_system_prompt(level, ui_language, learning_mode, scenario_id)
+            system_prompt = get_system_prompt(
+                level, ui_language, learning_mode, scenario_id, user_id
+            )
             session_update = {
                 "type": "session.update",
                 "session": {

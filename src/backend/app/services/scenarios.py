@@ -17,6 +17,7 @@ class Scenario(BaseModel):
     difficulty: Literal["Easy", "Medium", "Hard"]
     suggested_level: Literal["A1", "A2", "B1", "B2", "C1", "C2"]
     topics: list[str]
+    icon: str = "📝"
 
 
 SCENARIOS: dict[str, Scenario] = {
@@ -30,6 +31,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Easy",
         suggested_level="A1",
         topics=["Food & Drink", "Polite Requests", "Numbers (Price)"],
+        icon="☕",
     ),
     "asking-directions": Scenario(
         id="asking-directions",
@@ -41,6 +43,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Easy",
         suggested_level="A1",
         topics=["Directions", "Places in City", "Prepositions"],
+        icon="🗺️",
     ),
     "shopping-clothes": Scenario(
         id="shopping-clothes",
@@ -55,6 +58,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Easy",
         suggested_level="A2",
         topics=["Clothing", "Colors", "Sizes", "Shopping"],
+        icon="👕",
     ),
     "restaurant-dinner": Scenario(
         id="restaurant-dinner",
@@ -68,6 +72,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Medium",
         suggested_level="A2",
         topics=["Food", "Reservations", "Complaints", "Payment"],
+        icon="🍽️",
     ),
     "train-ticket": Scenario(
         id="train-ticket",
@@ -82,6 +87,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Medium",
         suggested_level="B1",
         topics=["Travel", "Time", "Schedules", "Public Transport"],
+        icon="🚆",
     ),
     "doctor-visit": Scenario(
         id="doctor-visit",
@@ -93,6 +99,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Medium",
         suggested_level="B1",
         topics=["Health", "Body Parts", "Symptoms", "Appointments"],
+        icon="👨‍⚕️",
     ),
     "apartment-hunting": Scenario(
         id="apartment-hunting",
@@ -107,6 +114,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="B2",
         topics=["Housing", "Furniture", "Contracts", "Negotiation"],
+        icon="🏠",
     ),
     "job-interview": Scenario(
         id="job-interview",
@@ -118,6 +126,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="B2",
         topics=["Work", "Skills", "Professional History", "Formal Language"],
+        icon="💼",
     ),
     "university-registration": Scenario(
         id="university-registration",
@@ -131,6 +140,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C1",
         topics=["Education", "Bureaucracy", "Documents", "Formal Requests"],
+        icon="🎓",
     ),
     "customer-service": Scenario(
         id="customer-service",
@@ -145,6 +155,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C1",
         topics=["Technology", "Complaints", "Negotiation", "Problem Solving"],
+        icon="📞",
     ),
     "supermarket-checkout": Scenario(
         id="supermarket-checkout",
@@ -156,6 +167,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Easy",
         suggested_level="A1",
         topics=["Food", "Numbers", "Basic Questions"],
+        icon="🛒",
     ),
     "hotel-checkin": Scenario(
         id="hotel-checkin",
@@ -167,6 +179,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Easy",
         suggested_level="A2",
         topics=["Travel", "Time", "Services", "Polite Requests"],
+        icon="🏨",
     ),
     "bank-account": Scenario(
         id="bank-account",
@@ -180,6 +193,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Medium",
         suggested_level="B1",
         topics=["Banking", "Documents", "Services", "Formal Language"],
+        icon="🏦",
     ),
     "car-repair": Scenario(
         id="car-repair",
@@ -193,6 +207,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Medium",
         suggested_level="B2",
         topics=["Vehicles", "Technical Terms", "Negotiation", "Problem Solving"],
+        icon="🔧",
     ),
     "business-meeting": Scenario(
         id="business-meeting",
@@ -207,6 +222,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C1",
         topics=["Business", "Contracts", "Negotiation", "Professional Etiquette"],
+        icon="🤝",
     ),
     "political-debate": Scenario(
         id="political-debate",
@@ -221,6 +237,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C2",
         topics=["Politics", "Current Events", "Argumentation", "Complex Opinions"],
+        icon="🗣️",
     ),
     "legal-consultation": Scenario(
         id="legal-consultation",
@@ -234,6 +251,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C2",
         topics=["Law", "Rights", "Formal Language", "Technical Vocabulary"],
+        icon="⚖️",
     ),
     "literary-discussion": Scenario(
         id="literary-discussion",
@@ -247,6 +265,7 @@ SCENARIOS: dict[str, Scenario] = {
         difficulty="Hard",
         suggested_level="C2",
         topics=["Literature", "Culture", "Analysis", "Advanced Vocabulary"],
+        icon="📚",
     ),
 }
 

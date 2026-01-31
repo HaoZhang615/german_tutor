@@ -1,7 +1,8 @@
 from typing import Literal
 
 from app.models import GermanLevel
-from app.services.scenarios import Scenario, get_scenario
+from app.services.scenario_service import get_scenario_service
+from app.services.scenarios import Scenario
 
 LearningMode = Literal["teacher", "immersive"]
 
@@ -68,6 +69,7 @@ def get_system_prompt(
     ui_language: str = "en",
     learning_mode: LearningMode = "teacher",
     scenario_id: str | None = None,
+    user_id: str | None = None,
 ) -> str:
     level_info = GERMAN_LEVELS.get(level, GERMAN_LEVELS["A1"])
 
@@ -82,7 +84,8 @@ def get_system_prompt(
 
     # Immersive mode with scenario - strict roleplay, no explanations
     if learning_mode == "immersive" and scenario_id:
-        scenario = get_scenario(scenario_id)
+        scenario_service = get_scenario_service()
+        scenario = scenario_service.get_scenario(scenario_id, user_id or "system")
         if scenario:
             return _build_immersive_prompt(
                 level_info, scenario, base_instructions.get(level, base_instructions["A1"])
@@ -90,7 +93,8 @@ def get_system_prompt(
 
     # Teacher mode with scenario - guided practice with explanations allowed
     if learning_mode == "teacher" and scenario_id:
-        scenario = get_scenario(scenario_id)
+        scenario_service = get_scenario_service()
+        scenario = scenario_service.get_scenario(scenario_id, user_id or "system")
         if scenario:
             return _build_teacher_with_scenario_prompt(
                 level_info,
