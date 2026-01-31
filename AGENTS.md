@@ -7,7 +7,9 @@ Guidelines for AI agents working in this repository.
 AI-powered German language tutor for Chinese speakers using Azure OpenAI Realtime API.
 - **Backend**: Python 3.13, FastAPI, WebSockets (`src/backend/`)
 - **Frontend**: React 19, TypeScript 5.9, Vite, Tailwind CSS (`src/frontend/`)
-- **Infrastructure**: Azure Container Apps, Bicep (`infra/`)
+- **Infrastructure**: Azure Container Apps, Azure Static Web Apps, Bicep (`infra/`)
+- **Database**: Azure Cosmos DB (NoSQL) for user data, custom scenarios, and conversation logging
+- **Authentication**: JWT-based auth with OAuth2 (Google, GitHub) and email/password
 
 ## Build & Run Commands
 
@@ -78,6 +80,8 @@ azd auth login
 azd up              # Provision and deploy
 azd deploy          # Deploy only (after initial setup)
 ```
+
+**Post-deployment**: The `azd up` command automatically runs postprovision hooks that populate your local `.env` file with Azure resource URLs (OpenAI endpoint, CosmosDB connection strings, etc.).
 
 ## Code Style Guidelines
 
@@ -270,5 +274,8 @@ src/
 Required in `.env`:
 - `AZURE_OPENAI_ENDPOINT` - Azure OpenAI resource URL
 - `AZURE_OPENAI_REALTIME_DEPLOYMENT` - gpt-4o-realtime deployment name
+- `COSMOSDB_ENDPOINT` - Azure Cosmos DB endpoint URL
+- `COSMOSDB_DATABASE` - Database name (default: GermanTutor)
+- `COSMOSDB_SCENARIOS_CONTAINER` - Container for custom scenarios
 
 See `.env.example` for full list.
