@@ -33,6 +33,7 @@ class ScenarioService:
                         azure_endpoint=settings.azure_openai_endpoint,
                     )
                 else:
+
                     def get_token() -> str:
                         return credential.get_token(
                             "https://cognitiveservices.azure.com/.default"
@@ -71,14 +72,14 @@ class ScenarioService:
         # Convert default dict scenarios to Scenario objects
         for s_id, s_data in DEFAULT_SCENARIOS.items():
             # Create a mock scenario object for defaults
-            # In a real app, we might want to store defaults in DB too
+            s_dict = s_data.model_dump(exclude={"id"})
             s_obj = Scenario(
                 id=s_id,
                 user_id="system",
                 created_at=datetime.now(UTC),
                 is_public=True,
                 is_custom=False,
-                **s_data.model_dump(),
+                **s_dict,
             )
             all_scenarios.append(s_obj)
 
@@ -108,13 +109,14 @@ class ScenarioService:
         # Check defaults first
         if scenario_id in DEFAULT_SCENARIOS:
             s_data = DEFAULT_SCENARIOS[scenario_id]
+            s_dict = s_data.model_dump(exclude={"id"})
             return Scenario(
                 id=scenario_id,
                 user_id="system",
                 created_at=datetime.now(UTC),
                 is_public=True,
                 is_custom=False,
-                **s_data.model_dump(),
+                **s_dict,
             )
 
         if not self.enabled:
