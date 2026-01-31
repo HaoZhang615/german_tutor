@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.38.33.27573",
-      "templateHash": "14515754688663656683"
+      "version": "0.40.2.10011",
+      "templateHash": "1077425618589772903"
     }
   },
   "parameters": {
@@ -162,8 +162,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "3494697464587482114"
+              "version": "0.40.2.10011",
+              "templateHash": "8524274918295580095"
             }
           },
           "parameters": {
@@ -265,8 +265,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "11311845526480116006"
+              "version": "0.40.2.10011",
+              "templateHash": "4968075820297690453"
             }
           },
           "parameters": {
@@ -340,8 +340,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "16948260366063943193"
+              "version": "0.40.2.10011",
+              "templateHash": "7281868490892790144"
             }
           },
           "parameters": {
@@ -490,6 +490,9 @@
           "cosmosDbConversationsContainer": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmosdb'), '2025-04-01').outputs.conversationsContainerName.value]"
           },
+          "cosmosDbScenariosContainer": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmosdb'), '2025-04-01').outputs.scenariosContainerName.value]"
+          },
           "backendIdentityId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'backend-identity'), '2025-04-01').outputs.id.value]"
           },
@@ -558,8 +561,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "5190931030660344889"
+              "version": "0.40.2.10011",
+              "templateHash": "15489143849881385740"
             }
           },
           "parameters": {
@@ -602,6 +605,10 @@
               "defaultValue": ""
             },
             "cosmosDbConversationsContainer": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "cosmosDbScenariosContainer": {
               "type": "string",
               "defaultValue": ""
             },
@@ -837,6 +844,10 @@
                           "value": "[parameters('cosmosDbConversationsContainer')]"
                         },
                         {
+                          "name": "COSMOSDB_SCENARIOS_CONTAINER",
+                          "value": "[parameters('cosmosDbScenariosContainer')]"
+                        },
+                        {
                           "name": "FRONTEND_URL",
                           "value": "[parameters('frontendUrl')]"
                         },
@@ -935,7 +946,7 @@
             {
               "type": "Microsoft.Authorization/roleAssignments",
               "apiVersion": "2022-04-01",
-              "scope": "[format('Microsoft.CognitiveServices/accounts/{0}', last(split(parameters('openAiResourceId'), '/')))]",
+              "scope": "[resourceId('Microsoft.CognitiveServices/accounts', last(split(parameters('openAiResourceId'), '/')))]",
               "name": "[guid(parameters('openAiResourceId'), parameters('backendIdentityId'), 'Cognitive Services OpenAI User')]",
               "properties": {
                 "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '5e0bd9bd-7b93-4f28-af87-19fc36ad61bd')]",
@@ -1009,8 +1020,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "459198144816172098"
+              "version": "0.40.2.10011",
+              "templateHash": "17083406465115705031"
             }
           },
           "parameters": {
@@ -1184,6 +1195,38 @@
               ]
             },
             {
+              "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
+              "apiVersion": "2024-05-15",
+              "name": "[format('{0}/{1}/{2}', parameters('name'), parameters('databaseName'), 'Scenarios')]",
+              "properties": {
+                "resource": {
+                  "id": "Scenarios",
+                  "partitionKey": {
+                    "kind": "Hash",
+                    "paths": [
+                      "/user_id"
+                    ]
+                  },
+                  "indexingPolicy": {
+                    "indexingMode": "consistent",
+                    "includedPaths": [
+                      {
+                        "path": "/*"
+                      }
+                    ],
+                    "excludedPaths": [
+                      {
+                        "path": "/\"_etag\"/?"
+                      }
+                    ]
+                  }
+                }
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', parameters('name'), parameters('databaseName'))]"
+              ]
+            },
+            {
               "type": "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments",
               "apiVersion": "2021-04-15",
               "name": "[format('{0}/{1}', parameters('name'), guid(variables('cosmosDataContributor'), resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', parameters('backendIdentityName')), resourceId('Microsoft.DocumentDB/databaseAccounts', parameters('name'))))]",
@@ -1217,6 +1260,10 @@
             "userProgressContainerName": {
               "type": "string",
               "value": "UserProgress"
+            },
+            "scenariosContainerName": {
+              "type": "string",
+              "value": "Scenarios"
             },
             "accountId": {
               "type": "string",
@@ -1260,8 +1307,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.38.33.27573",
-              "templateHash": "14162002511040647053"
+              "version": "0.40.2.10011",
+              "templateHash": "9046772889601155799"
             }
           },
           "parameters": {
@@ -1394,6 +1441,10 @@
     "COSMOSDB_CONVERSATIONS_CONTAINER": {
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmosdb'), '2025-04-01').outputs.conversationsContainerName.value]"
+    },
+    "COSMOSDB_SCENARIOS_CONTAINER": {
+      "type": "string",
+      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('rg-{0}', parameters('environmentName'))), 'Microsoft.Resources/deployments', 'cosmosdb'), '2025-04-01').outputs.scenariosContainerName.value]"
     }
   }
 }
